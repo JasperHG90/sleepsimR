@@ -9,7 +9,8 @@ Description: I used this package in my thesis to simulate
      using the R library mHMMBayes
 Imports:
      magrittr,
-     mHMMBayes
+     mHMMBayes,
+     uuid
 Remotes: emmekeaarts/mHMMBayes@develop
 URL:
     https://github.com/JasperHG90/sleepsimR
