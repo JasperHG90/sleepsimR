@@ -1,0 +1,16 @@
+Package: sleepsimR
+Type: Package
+Title: Simulate and analyze sleep state data
+Version: 0.1.0
+Author: Jasper Ginn
+Maintainer: Jasper Ginn <jasperginn@gmail.com>
+Description: I used this package in my thesis to simulate
+     multivariate sleep state data for multiple persons 
+     using the R library mHMMBayes
+Imports:
+     magrittr,
+     mHMMBayes
+Remotes: emmekeaarts/mHMMBayes@develop
+License: MIT
+Encoding: UTF-8
+LazyData: true
