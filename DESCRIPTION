@@ -10,7 +10,8 @@ Description: I used this package in my thesis to simulate
 Imports:
      magrittr,
      mHMMBayes,
-     uuid
+     uuid,
+     httr
 Remotes: emmekeaarts/mHMMBayes@develop
 URL:
     https://github.com/JasperHG90/sleepsimR
