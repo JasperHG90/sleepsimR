@@ -63,3 +63,35 @@ burn.mHMM_cont <- function(x) {
   # Return
   return(x)
 }
+
+# S3 generic
+MAP <- function(x, ...) {
+  UseMethod("MAP", x)
+}
+# Retrieve MAP estimates for estimates
+MAP.mHMM_cont <- function(x) {
+  # Remove burn-in samples
+  feelnobern <- burn(x)
+  # Remove input
+  feelnobern$input <- NULL
+  # Get data types for each
+  dtypes <- vapply(feelnobern, function(x) mode(x), "string")
+  # Remove character types
+  feelnobern <- feelnobern[!dtypes == "character"]
+  # For each, collect MAP
+  map_out <- vector("list", length(feelnobern))
+  # Names
+  names(map_out) <- names(feelnobern)
+  for(param_idx in seq_along(feelnobern)) {
+    # if numeric, compute MAP
+    if(mode(feelnobern[[param_idx]]) == "numeric") {
+      map_out[[param_idx]] <- apply(feelnobern[[param_idx]], 2, mean)
+    } else {
+      map_out[[param_idx]] <- lapply(feelnobern[[param_idx]], function(x) {
+        apply(x, 2, mean)
+      })
+    }
+  }
+  # Return
+  return(map_out)
+}
