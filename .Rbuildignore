@@ -2,3 +2,9 @@
 ^\.Rproj\.user$
 ^dev$
 ^LICENSE.\txt$
+^experiments$
+^testing$
+^notes$
+^img$
+^_pkgdown\.yml$
+^docs$

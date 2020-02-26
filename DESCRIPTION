@@ -12,7 +12,7 @@ Imports:
      mHMMBayes,
      uuid,
      httr
-Remotes: emmekeaarts/mHMMBayes@develop
+Remotes: emmekeaarts/mHMMBayes@91ef939
 URL:
     https://github.com/JasperHG90/sleepsimR
 BugReports:
