@@ -5,7 +5,7 @@ mnlr <- function(coefs) {
   exp(coefs) / (1 + sum(exp(coefs)))
 }
 
-# From intercepts to TPM
+# For TPM: From intercepts to probabilities
 intercepts_to_TPM <- function(coefs) {
   opts <- getOptions("sleepsimR_simulate")
   # Create empty matrix
@@ -95,3 +95,36 @@ MAP.mHMM_cont <- function(x) {
   # Return
   return(map_out)
 }
+
+#' Plot histograms of between-subject means
+#'
+#' @importFrom magrittr '%>%'
+#' @import ggplot2
+plot_posterior <- function(x, ...) {
+  UseMethod("plot_posterior", x)
+}
+plot_posterior.mHMM_cont <- function(x) {
+  # Remove burn-in samples
+  # Get between-subject means
+  betmu <- x %>%
+    burn() %>%
+    .$emiss_mu_bar
+    as.data.frame()
+  # To long format, plot etc.
+  betmu_long <- vector("list", ncol(betmu))
+  for(cn in seq_along(colnames(betmu))) {
+    n <- nrow(betmu)
+    betmu_long[[cn]] <- data.frame(
+      "var" = rep(colnames(betmu)[cn], n),
+      "val" = betmu[,colnames(betmu)[cn]]
+    )
+  }
+  # Bind
+  do.call(rbind.data.frame, betmu_long) %>%
+    # Plot
+    ggplot(., aes(x=val)) +
+      geom_histogram()
+      theme_bw()
+      facet_wrap(". ~ var", ncol=1)
+}
+
