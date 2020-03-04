@@ -103,13 +103,18 @@ MAP.mHMM_cont <- function(x) {
 plot_posterior <- function(x, ...) {
   UseMethod("plot_posterior", x)
 }
-plot_posterior.mHMM_cont <- function(x) {
+plot_posterior.mHMM_cont <- function(x, var = 1) {
   # Remove burn-in samples
   # Get between-subject means
   betmu <- x %>%
     burn() %>%
     .$emiss_mu_bar
-    as.data.frame()
+  # Cannot select a variable using an index that doesn't exist
+  assertthat::assert_that(var <= length(betmu), paste0(
+    "You selected ", var,
+    ". But there are only ", length(betmu), " independent variables."
+  ))
+  betmu <- as.data.frame(betmu[[var]])
   # To long format, plot etc.
   betmu_long <- vector("list", ncol(betmu))
   for(cn in seq_along(colnames(betmu))) {
