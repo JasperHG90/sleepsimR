@@ -68,7 +68,7 @@ burn.mHMM_cont <- function(x) {
 MAP <- function(x, ...) {
   UseMethod("MAP", x)
 }
-# Retrieve MAP estimates for estimates
+# Retrieve MAP estimates for parameters
 MAP.mHMM_cont <- function(x) {
   # Remove burn-in samples
   feelnobern <- burn(x)

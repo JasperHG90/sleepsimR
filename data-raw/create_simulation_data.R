@@ -16,7 +16,7 @@ n <- c(10, 20, 40, 80)
 n_t <- c(400,800, 1600, 3200)
 # Variance of the between-subject component distributions
 zeta <- c(0.5, 1, 2)
-# Varuance of the between-subject transition probabilities
+# Variance of the between-subject transition probabilities
 Q <- c(0.1, 0.2, 0.4)
 # Create data
 scenarios <- expand.grid(n, n_t, zeta, Q)
