@@ -1752,10 +1752,22 @@ summary {
 <!-- rnb-text-begin -->
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
+<p>In this R notebook, I select several channels from the pre-processed EEG and EOG channels [TODO: add links]. I then fit the multilevel HMM on these data and obtain the between-subject emission distribution means and transition probabilities. These will be used for the purposes of simulating new data to be used in the study.</p>
+<div id="downloading-the-data" class="section level2">
+<h2>Downloading the data</h2>
+<p>You can obtain the pre-processed EEG/EOG data from <a href="https://drive.google.com/open?id=13w-CC3XWrmtzF_4upfmSqJ16IVS1CmJ8">this</a> link. Next, place the file in the same folder as this R notebook. Alternatively, you can download the dataset yourself and pre-process it using the following docker programs: [TODO: add links].</p>
+</div>
+<div id="download-the-model" class="section level2">
+<h2>Download the model</h2>
+<p>Using the (preprocessed) data, you can run the code below in its entirety to obtain the model, or you can download the model from <a href="https://drive.google.com/open?id=1vw2By35eQnHkgBmWnfopK8zKWEesEjRO">this</a> link. Next, place the file in the same folder as this R notebook.</p>
+</div>
+</div>
+<div id="selecting-channels-from-the-raw-data" class="section level1">
+<h1>Selecting channels from the raw data</h1>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiT2J0YWluaW5nIHBvcHVsYXRpb24gcGFyYW1ldGVycyBmb3IgdGhlIHNpbXVsYXRpb24gc3R1ZHkiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCiMgSW50cm9kdWN0aW9uCgoKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiT2J0YWluaW5nIHBvcHVsYXRpb24gcGFyYW1ldGVycyBmb3IgdGhlIHNpbXVsYXRpb24gc3R1ZHkiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCiMgSW50cm9kdWN0aW9uCgpJbiB0aGlzIFIgbm90ZWJvb2ssIEkgc2VsZWN0IHNldmVyYWwgY2hhbm5lbHMgZnJvbSB0aGUgcHJlLXByb2Nlc3NlZCBFRUcgYW5kIEVPRyBjaGFubmVscyBbVE9ETzogYWRkIGxpbmtzXS4gSSB0aGVuIGZpdCB0aGUgbXVsdGlsZXZlbCBITU0gb24gdGhlc2UgZGF0YSBhbmQgb2J0YWluIHRoZSBiZXR3ZWVuLXN1YmplY3QgZW1pc3Npb24gZGlzdHJpYnV0aW9uIG1lYW5zIGFuZCB0cmFuc2l0aW9uIHByb2JhYmlsaXRpZXMuIFRoZXNlIHdpbGwgYmUgdXNlZCBmb3IgdGhlIHB1cnBvc2VzIG9mIHNpbXVsYXRpbmcgbmV3IGRhdGEgdG8gYmUgdXNlZCBpbiB0aGUgc3R1ZHkuCgojIyBEb3dubG9hZGluZyB0aGUgZGF0YQoKWW91IGNhbiBvYnRhaW4gdGhlIHByZS1wcm9jZXNzZWQgRUVHL0VPRyBkYXRhIGZyb20gW3RoaXNdKGh0dHBzOi8vZHJpdmUuZ29vZ2xlLmNvbS9vcGVuP2lkPTEzdy1DQzNYV3JtdHpGXzR1cGZtU3FKMTZJVlMxQ21KOCkgbGluay4gTmV4dCwgcGxhY2UgdGhlIGZpbGUgaW4gdGhlIHNhbWUgZm9sZGVyIGFzIHRoaXMgUiBub3RlYm9vay4gQWx0ZXJuYXRpdmVseSwgeW91IGNhbiBkb3dubG9hZCB0aGUgZGF0YXNldCB5b3Vyc2VsZiBhbmQgcHJlLXByb2Nlc3MgaXQgdXNpbmcgdGhlIGZvbGxvd2luZyBkb2NrZXIgcHJvZ3JhbXM6IFtUT0RPOiBhZGQgbGlua3NdLgoKIyMgRG93bmxvYWQgdGhlIG1vZGVsCgpVc2luZyB0aGUgKHByZXByb2Nlc3NlZCkgZGF0YSwgeW91IGNhbiBydW4gdGhlIGNvZGUgYmVsb3cgaW4gaXRzIGVudGlyZXR5IHRvIG9idGFpbiB0aGUgbW9kZWwsIG9yIHlvdSBjYW4gZG93bmxvYWQgdGhlIG1vZGVsIGZyb20gW3RoaXNdKGh0dHBzOi8vZHJpdmUuZ29vZ2xlLmNvbS9vcGVuP2lkPTF2dzJCeTM1ZVFuSGtnQm1XbmZvcEs4ektXRWVzRWpSTykgbGluay4gTmV4dCwgcGxhY2UgdGhlIGZpbGUgaW4gdGhlIHNhbWUgZm9sZGVyIGFzIHRoaXMgUiBub3RlYm9vay4KCiMgU2VsZWN0aW5nIGNoYW5uZWxzIGZyb20gdGhlIHJhdyBkYXRhCgoK</div>
 
 
 

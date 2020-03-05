@@ -5,5 +5,16 @@ output: html_notebook
 
 # Introduction
 
+In this R notebook, I select several channels from the pre-processed EEG and EOG channels [TODO: add links]. I then fit the multilevel HMM on these data and obtain the between-subject emission distribution means and transition probabilities. These will be used for the purposes of simulating new data to be used in the study.
+
+## Downloading the data
+
+You can obtain the pre-processed EEG/EOG data from [this](https://drive.google.com/open?id=13w-CC3XWrmtzF_4upfmSqJ16IVS1CmJ8) link. Next, place the file in the same folder as this R notebook. Alternatively, you can download the dataset yourself and pre-process it using the following docker programs: [TODO: add links].
+
+## Download the model
+
+Using the (preprocessed) data, you can run the code below in its entirety to obtain the model, or you can download the model from [this](https://drive.google.com/open?id=1vw2By35eQnHkgBmWnfopK8zKWEesEjRO) link. Next, place the file in the same folder as this R notebook.
+
+# Selecting channels from the raw data
 
 

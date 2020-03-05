@@ -9,10 +9,11 @@ Description: I used this package in my thesis to simulate
      using the R library mHMMBayes
 Imports:
      magrittr,
-     mHMMBayes,
+     mHMMbayes,
+     ggplot2,
      uuid,
      httr
-Remotes: emmekeaarts/mHMMBayes@91ef939
+Remotes: emmekeaarts/mHMMbayes@c5ed3fed36af28c9557c2f90231a00ad29412ffe
 URL:
     https://github.com/JasperHG90/sleepsimR
 BugReports:
