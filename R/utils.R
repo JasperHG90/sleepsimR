@@ -1,15 +1,26 @@
 ## Utility functions
 
-# Transform coefficients to probabilities
+#' Convenience function used to convert intercepts of multinomial logistic regression estimates to probabilities
+#'
+#' @param coefs numeric vector. coefficients to be converted
+#'
+#' @return m times 1 vector, where m is the number of hidden states
 mnlr <- function(coefs) {
   exp(coefs) / (1 + sum(exp(coefs)))
 }
 
-# For TPM: From intercepts to probabilities
-intercepts_to_TPM <- function(coefs) {
-  opts <- getOptions("sleepsimR_simulate")
+#' Convert transition probabilities to a transition probability matrix
+#'
+#' @param x an mHMM_cont object
+#'
+#' @return m times m transition probability matrix, where m is the number of hidden states.
+intercepts_to_TPM <- function(x, ...) {
+  UseMethod("intercepts_to_TPM", x)
+}
+intercepts_to_TPM.mHMM_cont <- function(x) {
+  m <- x$input$m
   # Create empty matrix
-  tpm <- matrix(0L, nrow = opts$m, ncol=opts$m)
+  tpm <- matrix(0L, nrow = m, ncol=m)
   # Coefficient index
   cur_var_idx <- 1
   # Populate
@@ -28,11 +39,16 @@ intercepts_to_TPM <- function(coefs) {
   return(tpm_prob)
 }
 
-# S3 generic
+#' Burn function for model output
+#'
+#' @param x an mHMM_cont object
+#'
+#' @return mHMM_cont object for which the burn-in samples have been removed
+#'         for each parameter.
+#' @export
 burn <- function(x, ...) {
   UseMethod("burn", x)
 }
-# Burn function for model output
 burn.mHMM_cont <- function(x) {
   # Number of burn_in samples
   burn_in <- x$input$burn_in
@@ -64,30 +80,36 @@ burn.mHMM_cont <- function(x) {
   return(x)
 }
 
-# S3 generic
+#' Retrieve MAP estimates for parameters
+#'
+#' @param x an mHMM_cont object
+#'
+#' @return List. Maximum a Posteriori (MAP) estimates for each parameter.
+#'         names of the elements are identical of the names of the input
+#'         parameters
+#' @export
 MAP <- function(x, ...) {
   UseMethod("MAP", x)
 }
-# Retrieve MAP estimates for parameters
 MAP.mHMM_cont <- function(x) {
   # Remove burn-in samples
-  feelnobern <- burn(x)
+  feelthebern <- burn(x)
   # Remove input
-  feelnobern$input <- NULL
+  feelthebern$input <- NULL
   # Get data types for each
-  dtypes <- vapply(feelnobern, function(x) mode(x), "string")
+  dtypes <- vapply(feelthebern, function(x) mode(x), "string")
   # Remove character types
-  feelnobern <- feelnobern[!dtypes == "character"]
+  feelthebern <- feelthebern[!dtypes == "character"]
   # For each, collect MAP
-  map_out <- vector("list", length(feelnobern))
+  map_out <- vector("list", length(feelthebern))
   # Names
-  names(map_out) <- names(feelnobern)
-  for(param_idx in seq_along(feelnobern)) {
+  names(map_out) <- names(feelthebern)
+  for(param_idx in seq_along(feelthebern)) {
     # if numeric, compute MAP
-    if(mode(feelnobern[[param_idx]]) == "numeric") {
-      map_out[[param_idx]] <- apply(feelnobern[[param_idx]], 2, mean)
+    if(mode(feelthebern[[param_idx]]) == "numeric") {
+      map_out[[param_idx]] <- apply(feelthebern[[param_idx]], 2, mean)
     } else {
-      map_out[[param_idx]] <- lapply(feelnobern[[param_idx]], function(x) {
+      map_out[[param_idx]] <- lapply(feelthebern[[param_idx]], function(x) {
         apply(x, 2, mean)
       })
     }
@@ -98,19 +120,24 @@ MAP.mHMM_cont <- function(x) {
 
 #' Plot histograms of between-subject means
 #'
+#' @param x an mHMM_cont object
+#'
 #' @importFrom magrittr '%>%'
 #' @import ggplot2
-plot_posterior <- function(x, ...) {
+#'
+#' @return plots the between-subject means
+#' @export
+plot_posterior_means <- function(x, ...) {
   UseMethod("plot_posterior", x)
 }
-plot_posterior.mHMM_cont <- function(x, var = 1) {
+plot_posterior_means.mHMM_cont <- function(x, var = 1) {
   # Remove burn-in samples
   # Get between-subject means
   betmu <- x %>%
     burn() %>%
     .$emiss_mu_bar
   # Cannot select a variable using an index that doesn't exist
-  assertthat::assert_that(var <= length(betmu), paste0(
+  assertthat::assert_that(var <= length(betmu), msg = paste0(
     "You selected ", var,
     ". But there are only ", length(betmu), " independent variables."
   ))
@@ -128,8 +155,7 @@ plot_posterior.mHMM_cont <- function(x, var = 1) {
   do.call(rbind.data.frame, betmu_long) %>%
     # Plot
     ggplot(., aes(x=val)) +
-      geom_histogram()
-      theme_bw()
+      geom_histogram() +
+      theme_bw() +
       facet_wrap(". ~ var", ncol=1)
 }
-
