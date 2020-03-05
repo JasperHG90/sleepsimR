@@ -1,0 +1,8 @@
+---
+title: "Obtaining population parameters for the simulation study"
+output: html_notebook
+---
+
+
+
+

@@ -1,42 +1,26 @@
 ## Utility functions
 
-#' Convenience function used to convert intercepts of multinomial logistic regression estimates to probabilities
-#'
-#' @param coefs numeric vector. coefficients to be converted
-#'
-#' @return m times 1 vector, where m is the number of hidden states
-mnlr <- function(coefs) {
-  exp(coefs) / (1 + sum(exp(coefs)))
-}
-
-#' Convert transition probabilities to a transition probability matrix
+#' Convert a list of probabilities into an m x m transition probability matrix
 #'
 #' @param x an mHMM_cont object
 #'
-#' @return m times m transition probability matrix, where m is the number of hidden states.
-intercepts_to_TPM <- function(x, ...) {
-  UseMethod("intercepts_to_TPM", x)
+#' @return m x m transition probability matrix, where m is the number of hidden states
+#' @export
+get_subject_tpm <- function(x, ...) {
+  UseMethod("get_subject_tpm", x)
 }
-intercepts_to_TPM.mHMM_cont <- function(x) {
+get_subject_tpm.mHMM_cont <- function(x) {
+  # Select probs
+  p <- x$gamma_prob_bar
+  # Select states
   m <- x$input$m
-  # Create empty matrix
-  tpm <- matrix(0L, nrow = m, ncol=m)
-  # Coefficient index
-  cur_var_idx <- 1
-  # Populate
-  for(row_idx in 1:nrow(tpm)) {
-    for(col_idx in 2:ncol(tpm)) {
-      print(col_idx)
-      tpm[row_idx,col_idx] <- coefs[cur_var_idx]
-      cur_var_idx <- cur_var_idx + 1
-    }
-  }
-  # Populate first column
-  tpm[,1] <- rep(1, nrow(tpm))
-  # To probability
-  tpm_prob <- apply(tpm, 1, mnlr)
-  # Return
-  return(tpm_prob)
+  # Create m x m matrix and return
+  matrix(
+    p,
+    ncol = m,
+    nrow = m,
+    byrow = TRUE
+  )
 }
 
 #' Burn function for model output
