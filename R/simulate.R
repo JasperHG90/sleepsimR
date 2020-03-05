@@ -11,5 +11,5 @@
 #'
 #' @details
 simulate_dataset <- function(n, n_t, zeta, Q) {
-
+  NULL
 }
