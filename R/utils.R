@@ -9,6 +9,7 @@
 get_subject_tpm <- function(x, ...) {
   UseMethod("get_subject_tpm", x)
 }
+#' @export
 get_subject_tpm.mHMM_cont <- function(x) {
   # Select probs
   p <- x$gamma_prob_bar
@@ -33,6 +34,7 @@ get_subject_tpm.mHMM_cont <- function(x) {
 burn <- function(x, ...) {
   UseMethod("burn", x)
 }
+#' @export
 burn.mHMM_cont <- function(x) {
   # Number of burn_in samples
   burn_in <- x$input$burn_in
@@ -75,6 +77,7 @@ burn.mHMM_cont <- function(x) {
 MAP <- function(x, ...) {
   UseMethod("MAP", x)
 }
+#' @export
 MAP.mHMM_cont <- function(x) {
   # Remove burn-in samples
   feelthebern <- burn(x)
@@ -112,8 +115,9 @@ MAP.mHMM_cont <- function(x) {
 #' @return plots the between-subject means
 #' @export
 plot_posterior_means <- function(x, ...) {
-  UseMethod("plot_posterior", x)
+  UseMethod("plot_posterior_means", x)
 }
+#' @export
 plot_posterior_means.mHMM_cont <- function(x, var = 1) {
   # Remove burn-in samples
   # Get between-subject means
