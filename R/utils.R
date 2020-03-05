@@ -12,7 +12,7 @@ get_subject_tpm <- function(x, ...) {
 #' @export
 get_subject_tpm.mHMM_cont <- function(x) {
   # Select probs
-  p <- x$gamma_prob_bar
+  p <- apply(x$gamma_prob_bar,2, mean)
   # Select states
   m <- x$input$m
   # Create m x m matrix and return
@@ -118,7 +118,9 @@ plot_posterior_means <- function(x, ...) {
   UseMethod("plot_posterior_means", x)
 }
 #' @export
-plot_posterior_means.mHMM_cont <- function(x, var = 1) {
+plot_posterior_means.mHMM_cont <- function(x, var = 1, ground_truth = NULL) {
+  # Check length of ground_truth means. Should be equal to the number of emission distributions
+  assertthat::assert_that(length(ground_truth) <= x$input$n_dep, msg="Supplied more ground truth means than that there are emission distributions.")
   # Remove burn-in samples
   # Get between-subject means
   betmu <- x %>%
@@ -136,14 +138,32 @@ plot_posterior_means.mHMM_cont <- function(x, var = 1) {
     n <- nrow(betmu)
     betmu_long[[cn]] <- data.frame(
       "var" = rep(colnames(betmu)[cn], n),
-      "val" = betmu[,colnames(betmu)[cn]]
+      "val" = betmu[,colnames(betmu)[cn]],
+      "mval" = mean(betmu[,colnames(betmu)[cn]]),
+      "gtv" = ifelse(!is.null(ground_truth),
+                     ground_truth[cn],
+                     NA)
     )
   }
   # Bind
-  do.call(rbind.data.frame, betmu_long) %>%
-    # Plot
-    ggplot(., aes(x=val)) +
-      geom_histogram() +
-      theme_bw() +
-      facet_wrap(". ~ var", ncol=1)
+  outd <- do.call(rbind.data.frame, betmu_long)
+  # Plot
+  outp <- ggplot(outd, aes(x=val)) +
+    geom_histogram() +
+    theme_bw() +
+    facet_wrap(". ~ var", ncol=1) +
+    geom_vline(data=outd, aes(xintercept=mval),
+               linetype = "dashed", color = "#2b8cbe",
+               size = 1.1)
+  # If ground truth supplied
+  if(!is.null(ground_truth)) {
+    outp +
+      geom_vline(data = outd, aes(xintercept=gtv),
+                 linetype = "dotdash", color = "#e34a33",
+                 size = 1.1)
+  } else {
+    outp
+  }
 }
+
+# TODO: add method to plot chain over time.

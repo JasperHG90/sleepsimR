@@ -10,6 +10,7 @@ Description: I used this package in my thesis to simulate
 Imports:
      magrittr,
      mHMMbayes,
+     assertthat,
      ggplot2,
      uuid,
      httr
