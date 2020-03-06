@@ -567,29 +567,19 @@ mod <- readRDS("sleepmod_simulated_data.rds")
 ## Means of the emission distributions
 
 ```{r}
-ss <- tdf %>%
-  gather(var, val, -id, -state) %>%
-  group_by(id, var, state) %>%
-  summarize(mmvar = mean(val)) %>%
-  ungroup() %>%
-  group_by(var, state) %>%
-  summarize(mmvar = mean(mmvar))
-```
-
-```{r}
-gt <- ss$mmvar[1:3]
+gt <- c(-.3641326, -0.5949267, 0.6950765)
 plot_posterior_means(mod, var=1, ground_truth = gt) +
   ggtitle("Between-subject means for EEG_mean_beta") 
 ```
 
 ```{r}
-gt <- ss$mmvar[4:6]
+gt <- c(1.0143346, -1.3078620, -0.2425523)
 plot_posterior_means(mod, var=2, ground_truth = gt) +
   ggtitle("Between-subject means for EOG_median_theta") 
 ```
 
 ```{r}
-gt <- ss$mmvar[7:9]
+gt <- c(0.745672484, -1.310224312, 0.004942798)
 plot_posterior_means(mod, var=3, ground_truth = gt) +
   ggtitle("Between-subject means for EOG_min_beta") 
 ```
