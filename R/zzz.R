@@ -8,12 +8,6 @@
   # Hard-code options in the package
   options(
     sleepsimR_simulate = list(
-      # Sleep states
-      "m" = 3,
-      # Emission distribution type
-      "distr" = "continuous",
-      # Number of dependent variables
-      "n_dep" = 3,
       # Between-subject TPM
       "gamma_bar" = matrix(
         c(0.983611984, 0.002889722, 0.01349829,
@@ -23,14 +17,30 @@
       ),
       # Between-subject emission distributions
       "emission_bar" = list(
-        "EEG_Fpz_Cz_mean_beta" = c(-.3641326, -0.5949267, 0.6950765),
-        "EOG_median_theta" = c(1.0143346, -1.3078620, -0.2425523),
-        "EOG_min_beta" = c(0.745672484, -1.310224312, 0.004942798)
-      ),
-      # Which state to start in when simulating
-      "start_state" = 1
+        # EEG_Fpz_Cz_mean_beta
+        matrix(c(
+          -.3641326, 0.64,
+          -0.5949267, 0.87,
+          0.6950765, 0.81
+        ), nrow=m, ncol=2,
+        byrow = TRUE),
+        # EOG_median_theta
+        matrix(c(
+          1.0143346, 0.134,
+          -1.3078620, 0.28,
+          -0.2425523, 0.22
+        ), nrow=m, ncol=2,
+        byrow=TRUE),
+        # EOG_min_theta
+        matrix(c(
+          0.745672484, 0.37,
+          -1.310224312, 0.35,
+          0.004942798, 0.52
+        ), nrow=m, ncol=2,
+        byrow=TRUE)
+      )
     ),
     # Unique ID for this session
-    sleepsimR_uid = uuid::UUIDgenerate()
+    "sleepsimR_uid" = uuid::UUIDgenerate()
   )
 }
