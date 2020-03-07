@@ -1,9 +1,9 @@
 #' Generate parameter settings for each simulation iteration
 #'
-#' @param seed random seed to use for generating parameter settings for each iteration
+#' @param seed random seed to use for generating parameter settings for each iteration. Defaults to 3547912, which is the seed I use for my thesis.
 #'
 #' @return data frame with 36.000 rows and 11 columns
-#' \describe {
+#' \describe{
 #'    \item{n}{int. number of subjects}
 #'    \item{n_t}{int. number of observed data points for each subject}
 #'    \item{zeta}{float. between-subject variance for the means of the emission distributions}
@@ -23,6 +23,7 @@
 #'
 #' @importFrom digest digest
 #' @importFrom jsonlite toJSON
+#' @importFrom assertthat are_equal
 #'
 #' @export
 generate_scenarios <- function(seed= 3547912) {

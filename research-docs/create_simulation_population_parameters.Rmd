@@ -508,10 +508,10 @@ hyper_priors <- list(
   # Hyperprior on intercepts of dependent variables
   emiss_mu0 = list(
     # Depvar 1
-    matrix(c(-.38, 0, 1.1), nrow=1, ncol=mprop$m),
+    matrix(c(0, 0, 0), nrow=1, ncol=mprop$m),
     # Depvar 2
-    matrix(c(.46, -.6, .46), nrow=1, ncol=mprop$m),
-    matrix(c(1, -.9, -.1), nrow=1, ncol=mprop$m)
+    matrix(c(0, 0, 0), nrow=1, ncol=mprop$m),
+    matrix(c(0, 0, 0), nrow=1, ncol=mprop$m)
   ),
   # Hyperprior on the number of subjects in each state
   # Hypothetical subjects --> c(1,1,1)
@@ -550,6 +550,7 @@ hyper_priors <- list(
 )
 # Set seed
 set.seed(78432)
+library(dplyr)
 # Run model
 mod <- mHMMbayes::mHMM_cont(as.matrix(tdf %>% select(-state)),
                             gen=mprop,
@@ -622,5 +623,3 @@ mod$emiss_mu_bar$EOG_min_beta %>%
   facet_wrap(". ~ var") +
   ggtitle("EEG_mean_beta")
 ```
-
-f

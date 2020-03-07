@@ -13,8 +13,6 @@
 #' @importFrom mHMMbayes sim_mHMM
 #'
 #' @export
-#'
-#' @details
 simulate_dataset <- function(n, n_t, zeta, Q, seed) {
   # Retrieve parameter values from options
   # (set in zzz.R)
@@ -34,11 +32,17 @@ simulate_dataset <- function(n, n_t, zeta, Q, seed) {
     data_distr = "continuous",
     # Number of states
     m = m,
-    n_dep = ,n_dep,
+    # Number of emission distributions
+    n_dep = n_dep,
+    # Start state (Awake)
     start_state = 1,
+    # Transition probabilities
     gamma = gamma,
+    # Emission distribution means + var
     emiss_distr = emiss,
+    # Between-subject variance for TPM
     var_gamma = Q,
+    # Between-subject variance for emission distributions
     var_emiss = zeta
   )
   # Return

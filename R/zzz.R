@@ -22,21 +22,21 @@
           -.3641326, 0.64,
           -0.5949267, 0.87,
           0.6950765, 0.81
-        ), nrow=m, ncol=2,
+        ), nrow=3, ncol=2,
         byrow = TRUE),
         # EOG_median_theta
         matrix(c(
           1.0143346, 0.134,
           -1.3078620, 0.28,
           -0.2425523, 0.22
-        ), nrow=m, ncol=2,
+        ), nrow=3, ncol=2,
         byrow=TRUE),
         # EOG_min_theta
         matrix(c(
           0.745672484, 0.37,
           -1.310224312, 0.35,
           0.004942798, 0.52
-        ), nrow=m, ncol=2,
+        ), nrow=3, ncol=2,
         byrow=TRUE)
       )
     ),

@@ -4,13 +4,21 @@
 \alias{simulate_dataset}
 \title{Simulate a sleep dataset for use in an mHMM model}
 \usage{
-simulate_dataset(n, n_t, zeta, Q)
+simulate_dataset(n, n_t, zeta, Q, seed)
 }
 \arguments{
-\item{Q}{}
+\item{n}{number of subjects}
+
+\item{n_t}{number of observations for each subject}
+
+\item{zeta}{between-subject variance of the emission distributions}
+
+\item{Q}{between-subject variance of the transition probability matrix}
+
+\item{seed}{}
 }
 \value{
-
+list containing states and emission distribution observed data. See \link[mHMMbayes]{sim_mHMM}.
 }
 \description{
 Simulate a sleep dataset for use in an mHMM model

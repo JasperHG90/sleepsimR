@@ -12,7 +12,7 @@ Imports:
      mHMMbayes,
      assertthat,
      ggplot2,
-     jsonlite
+     jsonlite,
      uuid,
      httr
 Remotes: emmekeaarts/mHMMbayes@c5ed3fed36af28c9557c2f90231a00ad29412ffe
