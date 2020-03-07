@@ -1,0 +1,16 @@
+---
+title: "Effect of within and between variances"
+output: html_notebook
+---
+
+# Introduction
+
+In this notebook, I investigate $4$ scenarios of the mHMMbayes model to observe the effect of different within (residual) and between variances of the sleep dataset. The following scenarios are investigated:
+
+|                   |      | Between-subject variance        |                                 |
+|-------------------|------|---------------------------------|---------------------------------|
+|                   |      | *Low*                             | *High*                            |
+| **Residual variance** | *Low*  |  Residual: +-0.2 Between: +-0.1 |  Residual: +-0.2 Between: +-0.4 |
+|                   | *High* |  Residual: +-0.6 Between: +-0.1 |  Residual: +-0.6 Between: +-0.4 |
+
+Given that the emission distributions overlap across states, it would be useful to get an idea of which variance term has a large effect on the ability of the model to adequately estimate model parameters. 
