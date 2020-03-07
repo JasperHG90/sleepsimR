@@ -15,7 +15,7 @@
           0.012392675, 0.021041540, 0.96656579),
         nrow = 3, ncol = 3, byrow = TRUE
       ),
-      # Between-subject emission distributions
+      # emission distributions
       "emission_bar" = list(
         # EEG_Fpz_Cz_mean_beta
         matrix(c(

@@ -108,30 +108,50 @@ MAP.mHMM_cont <- function(x) {
 #' Plot histograms of between-subject means
 #'
 #' @param x an mHMM_cont object
+#' @param param string. Which of the parameters should be plotted? Must be one of 'between_means', 'tpm_intercepts', 'residual_var' or 'between_var'
+#' @param var int. Which emission distribution should be plotted? Must be an integer equal to or less than the total number of emission distributions. Index of variables is the same as the order in which they appear in the input data given to the mHMM.
+#' @param ground_truth numeric. Vector of ground-truth values for the parameters equal to the number of emission distributions. Will be added as a red dotted line.
 #'
 #' @importFrom magrittr '%>%'
 #' @import ggplot2
+#' @importFrom assertthat assert_that
 #'
-#' @return plots the between-subject means
+#' @return plots a histogram of the parameter of interest for each of the hypothesized latent states
 #' @export
 plot_posterior_means <- function(x, ...) {
   UseMethod("plot_posterior_means", x)
 }
 #' @export
-plot_posterior_means.mHMM_cont <- function(x, var = 1, ground_truth = NULL) {
+plot_posterior.mHMM_cont <- function(x, param = c("emiss_mu_bar",
+                                                 "gamma_int_bar",
+                                                 "emiss_var_bar",
+                                                 "emiss_varmu_bar"),
+                                     var = 1, ground_truth = NULL) {
   # Check length of ground_truth means. Should be equal to the number of emission distributions
-  assertthat::assert_that(length(ground_truth) <= x$input$n_dep, msg="Supplied more ground truth means than that there are emission distributions.")
+  if(!is.null(ground_truth)) {
+    assertthat::assert_that(length(ground_truth) == x$input$n_dep,
+                            msg="Supplied more ground truth means than that there are emission distributions.")
+  }
+  # Match arg
+  param <- match.arg(param)
   # Remove burn-in samples
-  # Get between-subject means
+  # Get parameter posterior
   betmu <- x %>%
     burn() %>%
-    .$emiss_mu_bar
-  # Cannot select a variable using an index that doesn't exist
-  assertthat::assert_that(var <= length(betmu), msg = paste0(
-    "You selected ", var,
-    ". But there are only ", length(betmu), " independent variables."
-  ))
-  betmu <- as.data.frame(betmu[[var]])
+    .[[param]]
+  # Name of the variable (unless gamma)
+  if(param != "gamma_int_bar") {
+    var_name <- x$input$dep_labels[var]
+    # Cannot select a variable using an index that doesn't exist
+    assertthat::assert_that(var <= length(betmu), msg = paste0(
+      "You selected ", var,
+      ". But there are only ", length(betmu), " independent variables."
+    ))
+    betmu <- as.data.frame(betmu[[var]])
+  } else {
+    var_name <- "Between-subject TPM (intercepts)"
+    betmu <- as.data.frame(betmu)
+  }
   # To long format, plot etc.
   betmu_long <- vector("list", ncol(betmu))
   for(cn in seq_along(colnames(betmu))) {
@@ -154,7 +174,8 @@ plot_posterior_means.mHMM_cont <- function(x, var = 1, ground_truth = NULL) {
     facet_wrap(". ~ var", ncol=1) +
     geom_vline(data=outd, aes(xintercept=mval),
                linetype = "dashed", color = "#2b8cbe",
-               size = 1.1)
+               size = 1.1) +
+    ggtitle("Between-subject means for ", var_name)
   # If ground truth supplied
   if(!is.null(ground_truth)) {
     outp +
@@ -164,6 +185,67 @@ plot_posterior_means.mHMM_cont <- function(x, var = 1, ground_truth = NULL) {
   } else {
     outp
   }
+}
+
+#' Make a trace plot of the data
+#'
+#' @param x an mHMM_cont object
+#' @param param string. Which of the parameters should be plotted? Must be one of 'between_means', 'tpm_intercepts', 'residual_var' or 'between_var'
+#' @param var int. Which emission distribution should be plotted? Must be an integer equal to or less than the total number of emission distributions. Index of variables is the same as the order in which they appear in the input data given to the mHMM.
+#'
+#' @import ggplot2
+#' @importFrom magrittr '%>%'
+#' @importFrom assertthat assert_that
+#'
+#' @return
+#'
+#' @export
+trace_plot <- function(x, ...) {
+  UseMethod("trace_plot", x)
+}
+#' @export
+trace_plot.mHMM_cont <- function(x, param = c("emiss_mu_bar",
+                                              "gamma_int_bar",
+                                              "emiss_var_bar",
+                                              "emiss_varmu_bar"),
+                                 var = 1) {
+  # Match arg
+  param <- match.arg(param)
+  # Remove burn-in samples
+  # Get parameter posterior
+  betmu <- x %>%
+    burn() %>%
+    .[[param]]
+  # Name of the variable (unless gamma)
+  if(param != "gamma_int_bar") {
+    var_name <- x$input$dep_labels[var]
+    # Cannot select a variable using an index that doesn't exist
+    assertthat::assert_that(var <= length(betmu), msg = paste0(
+      "You selected ", var,
+      ". But there are only ", length(betmu), " independent variables."
+    ))
+    betmu <- as.data.frame(betmu[[var]])
+  } else {
+    var_name <- "Between-subject TPM (intercepts)"
+    betmu <- as.data.frame(betmu)
+  }
+  # To long format, plot etc.
+  betmu_long <- vector("list", ncol(betmu))
+  for(cn in seq_along(colnames(betmu))) {
+    n <- nrow(betmu)
+    betmu_long[[cn]] <- data.frame(
+      "iteration" = 1:n,
+      "var" = rep(colnames(betmu)[cn], n),
+      "val" = betmu[,colnames(betmu)[cn]]
+    )
+  }
+  # Bind
+  outd <- do.call(rbind.data.frame, betmu_long)
+  # Plot
+  ggplot(outd, aes(x=iteration, y=val)) +
+    geom_line() +
+    facet_wrap(". ~ var") +
+    ggtitle(var_name)
 }
 
 # TODO: add method to plot chain over time.

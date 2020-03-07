@@ -1778,22 +1778,101 @@ summary {
 <tr class="even">
 <td><strong>Residual variance</strong></td>
 <td><em>Low</em></td>
-<td>Residual: +-0.2 Between: +-0.1</td>
-<td>Residual: +-0.2 Between: +-0.4</td>
+<td>Residual: +-0.2 Between: +-0.5</td>
+<td>Residual: +-0.2 Between: +-2</td>
 </tr>
 <tr class="odd">
 <td></td>
 <td><em>High</em></td>
-<td>Residual: +-0.6 Between: +-0.1</td>
-<td>Residual: +-0.6 Between: +-0.4</td>
+<td>Residual: +-0.6 Between: +-0.5</td>
+<td>Residual: +-0.6 Between: +-2</td>
 </tr>
 </tbody>
 </table>
 <p>Given that the emission distributions overlap across states, it would be useful to get an idea of which variance term has a large effect on the ability of the model to adequately estimate model parameters.</p>
+<div id="scenario-1-low-between-subject-variance-low-within-subject-variance" class="section level2">
+<h2>Scenario 1: low between-subject variance, low within-subject variance</h2>
+<p>We can use the functions provided by sleepsimR to generate datasets. The standard settings are based on the parameter estimates of the model I ran on the sleep data. We will adjust these variances to a lower setting.</p>
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2ltX29wdHMkZW1pc3Npb25fYmFyXG5cbmBgYCJ9 -->
+<pre class="r"><code>sim_opts$emission_bar
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiW1sxXV1cbiAgICAgICAgICAgWywxXSBbLDJdXG5bMSxdIC0wLjM2NDEzMjYgMC42NFxuWzIsXSAtMC41OTQ5MjY3IDAuODdcblszLF0gIDAuNjk1MDc2NSAwLjgxXG5cbltbMl1dXG4gICAgICAgICAgIFssMV0gIFssMl1cblsxLF0gIDEuMDE0MzM0NiAwLjEzNFxuWzIsXSAtMS4zMDc4NjIwIDAuMjgwXG5bMyxdIC0wLjI0MjU1MjMgMC4yMjBcblxuW1szXV1cbiAgICAgICAgICAgICBbLDFdIFssMl1cblsxLF0gIDAuNzQ1NjcyNDg0IDAuMzdcblsyLF0gLTEuMzEwMjI0MzEyIDAuMzVcblszLF0gIDAuMDA0OTQyNzk4IDAuNTJcbiJ9 -->
+<pre><code>[[1]]
+           [,1] [,2]
+[1,] -0.3641326 0.64
+[2,] -0.5949267 0.87
+[3,]  0.6950765 0.81
+
+[[2]]
+           [,1]  [,2]
+[1,]  1.0143346 0.134
+[2,] -1.3078620 0.280
+[3,] -0.2425523 0.220
+
+[[3]]
+             [,1] [,2]
+[1,]  0.745672484 0.37
+[2,] -1.310224312 0.35
+[3,]  0.004942798 0.52</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Now we can simulate data and run this model:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbImQgPC0gc2ltdWxhdGVfZGF0YXNldCg0MCwgMTAwMCwgYygwLjUsIDAuNSwgMC41KSwgMC4xLCA1MDA5ODcpIiwiIyBUbyBkYXRhIGZyYW1lIiwidGRmIDwtIGRhdGEuZnJhbWUoIiwiICBpZCA9IGQkb2JzWywxXSwiLCIgIEVFR19tZWFuX2JldGEgPSBkJG9ic1ssMl0sIiwiICBFT0dfbWVkaWFuX3RoZXRhID0gZCRvYnNbLDNdLCIsIiAgRU9HX21pbl9iZXRhID0gZCRvYnNbLDRdLCIsIiAgc3RhdGUgPSBkJHN0YXRlc1ssMl0iLCIpIiwiIyBNYWtlIHN0YXJ0IHZhbHVlcyIsIiMgVFBNIiwic2V0LnNlZWQoMTEyMzEyMykiLCJkaWFnX3ZhbHVlIDwtIHJ1bmlmKDEsIDAuNSwgMC44KSIsImdhbSA8LSBkaWFnKGRpYWdfdmFsdWUsIDMpIiwiZ2FtW2xvd2VyLnRyaShnYW0pIHwgdXBwZXIudHJpKGdhbSldIDwtICgxLWRpYWdfdmFsdWUpIC8gMiIsIiMgTWFrZSBsaXN0Iiwic3YgPC0gbGlzdCgiLCIgIGdhbSwiLCIgICNFRUdfRnB6X0N6X21heF9nYW1tYSIsIiAgbWF0cml4KGMoIC0uMzggKyBydW5pZigxLCAtLjIsIC4yKSwgMC4xICsgcnVuaWYoMSwgLS4xLC4xKSwiLCIgICAgMCArIHJ1bmlmKDEsIC0uMiwgLjIpLCAwLjEgKyBydW5pZigxLCAtLjEsLjEpLCIsIiAgICAxLjEzICsgcnVuaWYoMSwgLS4yLCAuMiksIDAuMSArIHJ1bmlmKDEsIC0uMSwuMSkpLCIsIiAgICBucm93PTMsIG5jb2w9MiwgYnlyb3c9VFJVRSksIiwiICAgICAgIyBFT0dfbWVkaWFuX3RoZXRhIiwiICBtYXRyaXgoYyggLjUgKyBydW5pZigxLCAtLjIsIC4yKSwgMC4xICsgcnVuaWYoMSwgLS4xLC4xKSwiLCIgICAgICAgIC0uNiArIHJ1bmlmKDEsIC0uMiwgLjIpLCAwLjEgKyBydW5pZigxLCAtLjEsLjEpLCIsIiAgICAgICAgLjQgKyBydW5pZigxLCAtLjIsIC4yKSwgMC4xICsgcnVuaWYoMSwgLS4xLC4xKSksIiwiICAgICAgICBuY29sPTIsIG5yb3c9MywgYnlyb3c9VFJVRSksIiwiICAgICAgIyBFT0dfbWluX2JldGEiLCIgIG1hdHJpeChjKCAxICsgcnVuaWYoMSwgLS4yLCAuMiksIDAuMSArIHJ1bmlmKDEsIC0uMSwuMSksIiwiICAgICAgICAtLjkgKyBydW5pZigxLCAtLjIsIC4yKSwgMC4xICsgcnVuaWYoMSwgLS4xLC4xKSwiLCIgICAgICAgIC0uMSArIHJ1bmlmKDEsIC0uMiwgLjIpLCAwLjEgKyBydW5pZigxLCAtLjEsLjEpKSwiLCIgICAgICAgIG5yb3c9MywgbmNvbD0yLCBieXJvdz1UUlVFKSIsIikiLCIjIFJlbW92ZSBzdGF0ZSIsInN0YXRlIDwtIHRkZiRzdGF0ZSIsInRkZiRzdGF0ZSA8LSBOVUxMIiwiIyBSdW4gbW9kZWwiLCJtb2QgPC0gcnVuX21ITU0odGRmLCBzdiwgNjcxOTIpIl19 -->
+<pre class="r"><code>d &lt;- simulate_dataset(40, 1000, c(0.5, 0.5, 0.5), 0.1, 500987)
+# To data frame
+tdf &lt;- data.frame(
+  id = d$obs[,1],
+  EEG_mean_beta = d$obs[,2],
+  EOG_median_theta = d$obs[,3],
+  EOG_min_beta = d$obs[,4],
+  state = d$states[,2]
+)
+# Make start values
+# TPM
+set.seed(1123123)
+diag_value &lt;- runif(1, 0.5, 0.8)
+gam &lt;- diag(diag_value, 3)
+gam[lower.tri(gam) | upper.tri(gam)] &lt;- (1-diag_value) / 2
+# Make list
+sv &lt;- list(
+  gam,
+  #EEG_Fpz_Cz_max_gamma
+  matrix(c( -.38 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1),
+    0 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1),
+    1.13 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1)),
+    nrow=3, ncol=2, byrow=TRUE),
+      # EOG_median_theta
+  matrix(c( .5 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1),
+        -.6 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1),
+        .4 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1)),
+        ncol=2, nrow=3, byrow=TRUE),
+      # EOG_min_beta
+  matrix(c( 1 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1),
+        -.9 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1),
+        -.1 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1)),
+        nrow=3, ncol=2, byrow=TRUE)
+)
+# Remove state
+state &lt;- tdf$state
+tdf$state &lt;- NULL
+# Run model
+mod &lt;- run_mHMM(tdf, sv, 67192)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+</div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRWZmZWN0IG9mIHdpdGhpbiBhbmQgYmV0d2VlbiB2YXJpYW5jZXMiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCiMgSW50cm9kdWN0aW9uCgpJbiB0aGlzIG5vdGVib29rLCBJIGludmVzdGlnYXRlICQ0JCBzY2VuYXJpb3Mgb2YgdGhlIG1ITU1iYXllcyBtb2RlbCB0byBvYnNlcnZlIHRoZSBlZmZlY3Qgb2YgZGlmZmVyZW50IHdpdGhpbiAocmVzaWR1YWwpIGFuZCBiZXR3ZWVuIHZhcmlhbmNlcyBvZiB0aGUgc2xlZXAgZGF0YXNldC4gVGhlIGZvbGxvd2luZyBzY2VuYXJpb3MgYXJlIGludmVzdGlnYXRlZDoKCnwgICAgICAgICAgICAgICAgICAgfCAgICAgIHwgQmV0d2Vlbi1zdWJqZWN0IHZhcmlhbmNlICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfAp8LS0tLS0tLS0tLS0tLS0tLS0tLXwtLS0tLS18LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tfC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLXwKfCAgICAgICAgICAgICAgICAgICB8ICAgICAgfCAqTG93KiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAqSGlnaCogICAgICAgICAgICAgICAgICAgICAgICAgICAgfAp8ICoqUmVzaWR1YWwgdmFyaWFuY2UqKiB8ICpMb3cqICB8ICBSZXNpZHVhbDogKy0wLjIgQmV0d2VlbjogKy0wLjEgfCAgUmVzaWR1YWw6ICstMC4yIEJldHdlZW46ICstMC40IHwKfCAgICAgICAgICAgICAgICAgICB8ICpIaWdoKiB8ICBSZXNpZHVhbDogKy0wLjYgQmV0d2VlbjogKy0wLjEgfCAgUmVzaWR1YWw6ICstMC42IEJldHdlZW46ICstMC40IHwKCkdpdmVuIHRoYXQgdGhlIGVtaXNzaW9uIGRpc3RyaWJ1dGlvbnMgb3ZlcmxhcCBhY3Jvc3Mgc3RhdGVzLCBpdCB3b3VsZCBiZSB1c2VmdWwgdG8gZ2V0IGFuIGlkZWEgb2Ygd2hpY2ggdmFyaWFuY2UgdGVybSBoYXMgYSBsYXJnZSBlZmZlY3Qgb24gdGhlIGFiaWxpdHkgb2YgdGhlIG1vZGVsIHRvIGFkZXF1YXRlbHkgZXN0aW1hdGUgbW9kZWwgcGFyYW1ldGVycy4gCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRWZmZWN0IG9mIHdpdGhpbiBhbmQgYmV0d2VlbiB2YXJpYW5jZXMiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCiMgSW50cm9kdWN0aW9uCgpJbiB0aGlzIG5vdGVib29rLCBJIGludmVzdGlnYXRlICQ0JCBzY2VuYXJpb3Mgb2YgdGhlIG1ITU1iYXllcyBtb2RlbCB0byBvYnNlcnZlIHRoZSBlZmZlY3Qgb2YgZGlmZmVyZW50IHdpdGhpbiAocmVzaWR1YWwpIGFuZCBiZXR3ZWVuIHZhcmlhbmNlcyBvZiB0aGUgc2xlZXAgZGF0YXNldC4gVGhlIGZvbGxvd2luZyBzY2VuYXJpb3MgYXJlIGludmVzdGlnYXRlZDoKCnwgICAgICAgICAgICAgICAgICAgfCAgICAgIHwgQmV0d2Vlbi1zdWJqZWN0IHZhcmlhbmNlICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfAp8LS0tLS0tLS0tLS0tLS0tLS0tLXwtLS0tLS18LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tfC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLXwKfCAgICAgICAgICAgICAgICAgICB8ICAgICAgfCAqTG93KiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAqSGlnaCogICAgICAgICAgICAgICAgICAgICAgICAgICAgfAp8ICoqUmVzaWR1YWwgdmFyaWFuY2UqKiB8ICpMb3cqICB8ICBSZXNpZHVhbDogKy0wLjIgQmV0d2VlbjogKy0wLjUgfCAgUmVzaWR1YWw6ICstMC4yIEJldHdlZW46ICstMiB8CnwgICAgICAgICAgICAgICAgICAgfCAqSGlnaCogfCAgUmVzaWR1YWw6ICstMC42IEJldHdlZW46ICstMC41IHwgIFJlc2lkdWFsOiArLTAuNiBCZXR3ZWVuOiArLTIgfAoKR2l2ZW4gdGhhdCB0aGUgZW1pc3Npb24gZGlzdHJpYnV0aW9ucyBvdmVybGFwIGFjcm9zcyBzdGF0ZXMsIGl0IHdvdWxkIGJlIHVzZWZ1bCB0byBnZXQgYW4gaWRlYSBvZiB3aGljaCB2YXJpYW5jZSB0ZXJtIGhhcyBhIGxhcmdlIGVmZmVjdCBvbiB0aGUgYWJpbGl0eSBvZiB0aGUgbW9kZWwgdG8gYWRlcXVhdGVseSBlc3RpbWF0ZSBtb2RlbCBwYXJhbWV0ZXJzLiAKCiMjIFNjZW5hcmlvIDE6IGxvdyBiZXR3ZWVuLXN1YmplY3QgdmFyaWFuY2UsIGxvdyB3aXRoaW4tc3ViamVjdCB2YXJpYW5jZQoKV2UgY2FuIHVzZSB0aGUgZnVuY3Rpb25zIHByb3ZpZGVkIGJ5IHNsZWVwc2ltUiB0byBnZW5lcmF0ZSBkYXRhc2V0cy4gVGhlIHN0YW5kYXJkIHNldHRpbmdzIGFyZSBiYXNlZCBvbiB0aGUgcGFyYW1ldGVyIGVzdGltYXRlcyBvZiB0aGUgbW9kZWwgSSByYW4gb24gdGhlIHNsZWVwIGRhdGEuIFdlIHdpbGwgYWRqdXN0IHRoZXNlIHZhcmlhbmNlcyB0byBhIGxvd2VyIHNldHRpbmcuCgpgYGB7cn0KbGlicmFyeShzbGVlcHNpbVIpCnNpbV9vcHRzIDwtIGdldE9wdGlvbigic2xlZXBzaW1SX3NpbXVsYXRlIikKc2ltX29wdHMkZW1pc3Npb25fYmFyCmBgYAoKYGBge3J9CnNpbV9vcHRzJGVtaXNzaW9uX2JhcltbMV1dWywyXSA8LSBjKDAuMywgMC4yLCAwLjI1KQpzaW1fb3B0cyRlbWlzc2lvbl9iYXJbWzNdXVssMl0gPC0gYygwLjEsIDAuMTUsIDAuMikKYGBgCgpOb3cgd2UgY2FuIHNpbXVsYXRlIGRhdGEgYW5kIHJ1biB0aGlzIG1vZGVsOgoKYGBge3IsIGV2YWw9RkFMU0V9CmQgPC0gc2ltdWxhdGVfZGF0YXNldCg0MCwgMTAwMCwgYygwLjUsIDAuNSwgMC41KSwgMC4xLCA1MDA5ODcpCiMgVG8gZGF0YSBmcmFtZQp0ZGYgPC0gZGF0YS5mcmFtZSgKICBpZCA9IGQkb2JzWywxXSwKICBFRUdfbWVhbl9iZXRhID0gZCRvYnNbLDJdLAogIEVPR19tZWRpYW5fdGhldGEgPSBkJG9ic1ssM10sCiAgRU9HX21pbl9iZXRhID0gZCRvYnNbLDRdLAogIHN0YXRlID0gZCRzdGF0ZXNbLDJdCikKIyBNYWtlIHN0YXJ0IHZhbHVlcwojIFRQTQpzZXQuc2VlZCgxMTIzMTIzKQpkaWFnX3ZhbHVlIDwtIHJ1bmlmKDEsIDAuNSwgMC44KQpnYW0gPC0gZGlhZyhkaWFnX3ZhbHVlLCAzKQpnYW1bbG93ZXIudHJpKGdhbSkgfCB1cHBlci50cmkoZ2FtKV0gPC0gKDEtZGlhZ192YWx1ZSkgLyAyCiMgTWFrZSBsaXN0CnN2IDwtIGxpc3QoCiAgZ2FtLAogICNFRUdfRnB6X0N6X21heF9nYW1tYQogIG1hdHJpeChjKCAtLjM4ICsgcnVuaWYoMSwgLS4yLCAuMiksIDAuMSArIHJ1bmlmKDEsIC0uMSwuMSksCiAgICAwICsgcnVuaWYoMSwgLS4yLCAuMiksIDAuMSArIHJ1bmlmKDEsIC0uMSwuMSksCiAgICAxLjEzICsgcnVuaWYoMSwgLS4yLCAuMiksIDAuMSArIHJ1bmlmKDEsIC0uMSwuMSkpLAogICAgbnJvdz0zLCBuY29sPTIsIGJ5cm93PVRSVUUpLAogICAgICAjIEVPR19tZWRpYW5fdGhldGEKICBtYXRyaXgoYyggLjUgKyBydW5pZigxLCAtLjIsIC4yKSwgMC4xICsgcnVuaWYoMSwgLS4xLC4xKSwKICAgICAgICAtLjYgKyBydW5pZigxLCAtLjIsIC4yKSwgMC4xICsgcnVuaWYoMSwgLS4xLC4xKSwKICAgICAgICAuNCArIHJ1bmlmKDEsIC0uMiwgLjIpLCAwLjEgKyBydW5pZigxLCAtLjEsLjEpKSwKICAgICAgICBuY29sPTIsIG5yb3c9MywgYnlyb3c9VFJVRSksCiAgICAgICMgRU9HX21pbl9iZXRhCiAgbWF0cml4KGMoIDEgKyBydW5pZigxLCAtLjIsIC4yKSwgMC4xICsgcnVuaWYoMSwgLS4xLC4xKSwKICAgICAgICAtLjkgKyBydW5pZigxLCAtLjIsIC4yKSwgMC4xICsgcnVuaWYoMSwgLS4xLC4xKSwKICAgICAgICAtLjEgKyBydW5pZigxLCAtLjIsIC4yKSwgMC4xICsgcnVuaWYoMSwgLS4xLC4xKSksCiAgICAgICAgbnJvdz0zLCBuY29sPTIsIGJ5cm93PVRSVUUpCikKIyBSZW1vdmUgc3RhdGUKc3RhdGUgPC0gdGRmJHN0YXRlCnRkZiRzdGF0ZSA8LSBOVUxMCiMgUnVuIG1vZGVsCm1vZCA8LSBydW5fbUhNTSh0ZGYsIHN2LCA2NzE5MikKYGBgCg==</div>
 
 
 

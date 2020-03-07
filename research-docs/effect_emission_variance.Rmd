@@ -10,7 +10,66 @@ In this notebook, I investigate $4$ scenarios of the mHMMbayes model to observe 
 |                   |      | Between-subject variance        |                                 |
 |-------------------|------|---------------------------------|---------------------------------|
 |                   |      | *Low*                             | *High*                            |
-| **Residual variance** | *Low*  |  Residual: +-0.2 Between: +-0.1 |  Residual: +-0.2 Between: +-0.4 |
-|                   | *High* |  Residual: +-0.6 Between: +-0.1 |  Residual: +-0.6 Between: +-0.4 |
+| **Residual variance** | *Low*  |  Residual: +-0.2 Between: +-0.5 |  Residual: +-0.2 Between: +-2 |
+|                   | *High* |  Residual: +-0.6 Between: +-0.5 |  Residual: +-0.6 Between: +-2 |
 
 Given that the emission distributions overlap across states, it would be useful to get an idea of which variance term has a large effect on the ability of the model to adequately estimate model parameters. 
+
+## Scenario 1: low between-subject variance, low within-subject variance
+
+We can use the functions provided by sleepsimR to generate datasets. The standard settings are based on the parameter estimates of the model I ran on the sleep data. We will adjust these variances to a lower setting.
+
+```{r}
+library(sleepsimR)
+sim_opts <- getOption("sleepsimR_simulate")
+sim_opts$emission_bar
+```
+
+```{r}
+sim_opts$emission_bar[[1]][,2] <- c(0.3, 0.2, 0.25)
+sim_opts$emission_bar[[3]][,2] <- c(0.1, 0.15, 0.2)
+```
+
+Now we can simulate data and run this model:
+
+```{r, eval=FALSE}
+d <- simulate_dataset(40, 1000, c(0.5, 0.5, 0.5), 0.1, 500987)
+# To data frame
+tdf <- data.frame(
+  id = d$obs[,1],
+  EEG_mean_beta = d$obs[,2],
+  EOG_median_theta = d$obs[,3],
+  EOG_min_beta = d$obs[,4],
+  state = d$states[,2]
+)
+# Make start values
+# TPM
+set.seed(1123123)
+diag_value <- runif(1, 0.5, 0.8)
+gam <- diag(diag_value, 3)
+gam[lower.tri(gam) | upper.tri(gam)] <- (1-diag_value) / 2
+# Make list
+sv <- list(
+  gam,
+  #EEG_Fpz_Cz_max_gamma
+  matrix(c( -.38 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1),
+    0 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1),
+    1.13 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1)),
+    nrow=3, ncol=2, byrow=TRUE),
+      # EOG_median_theta
+  matrix(c( .5 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1),
+        -.6 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1),
+        .4 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1)),
+        ncol=2, nrow=3, byrow=TRUE),
+      # EOG_min_beta
+  matrix(c( 1 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1),
+        -.9 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1),
+        -.1 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1)),
+        nrow=3, ncol=2, byrow=TRUE)
+)
+# Remove state
+state <- tdf$state
+tdf$state <- NULL
+# Run model
+mod <- run_mHMM(tdf, sv, 67192)
+```

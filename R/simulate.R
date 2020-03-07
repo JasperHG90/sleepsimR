@@ -16,8 +16,8 @@
 simulate_dataset <- function(n, n_t, zeta, Q, seed) {
   # Retrieve parameter values from options
   # (set in zzz.R)
-  gamma <- getOption("gamma_bar")
-  emiss <- getOption("emission_bar")
+  gamma <- getOption("sleepsimR_simulate")[["gamma_bar"]]
+  emiss <- getOption("sleepsimR_simulate")[["emission_bar"]]
   m <- nrow(gamma)
   n_dep <- length(emiss_dist)
   # Set seed

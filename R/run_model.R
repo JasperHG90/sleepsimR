@@ -17,7 +17,7 @@
 run_mHMM <- function(data, start_values, model_seed, mcmc_iterations = 2000, mcmc_burn_in = 1000, show_progress = TRUE) {
   # Model properties
   mprop = list(
-    "m" = nrow(getOption("gamma_bar")),
+    "m" = nrow(getOption("sleepsimR_simulate")[["gamma_bar"]]),
     "n_dep" = 3
   )
   # Mcmc options

@@ -7,7 +7,7 @@
 generate_scenarios(seed = 3547912)
 }
 \arguments{
-\item{seed}{random seed to use for generating parameter settings for each iteration}
+\item{seed}{random seed to use for generating parameter settings for each iteration. Defaults to 3547912, which is the seed I use for my thesis.}
 }
 \value{
 data frame with 36.000 rows and 11 columns

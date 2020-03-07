@@ -8,6 +8,12 @@ plot_posterior_means(x, ...)
 }
 \arguments{
 \item{x}{an mHMM_cont object}
+
+\item{param}{string. Which of the parameters should be plotted? Must be one of 'between_means', 'tpm_intercepts', 'residual_var' or 'between_var'}
+
+\item{var}{int. Which emission distribution should be plotted? Must be an integer equal to or less than the total number of emission distributions.}
+
+\item{ground_truth}{numeric. Vector of ground-truth values for the parameters equal to the number of emission distributions. Will be added as a red dotted line.}
 }
 \value{
 plots the between-subject means
