@@ -51,6 +51,8 @@ generate_scenarios <- function(seed= 3547912) {
       io <- scenarios[x,]
       io$rank <- y
       io$iteration_id <- digest(paste(io, collapse="_"), algo="md5")
+      # Add dummy variable whether or not to save all model data (+-5%)
+      io$save_model <- ifelse(runif(nrow(io)) <= 0.05, TRUE, FALSE)
       io
     })
     do.call(rbind.data.frame, lst)
