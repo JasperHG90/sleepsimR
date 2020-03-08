@@ -73,3 +73,66 @@ tdf$state <- NULL
 # Run model
 mod <- run_mHMM(tdf, sv, 67192)
 ```
+
+```{r}
+saveRDS(mod, file="scen1.rds")
+```
+
+```{r}
+mod <- readRDS("scen1.rds")
+var <- 1
+# Ground-truth means
+gt <- sim_opts$emission_bar[[var]][,1]
+plot_posterior(mod, param = "emiss_mu_bar", var=var, ground_truth = gt)
+```
+
+```{r}
+plot_posterior(mod, param = "emiss_var_bar", var=var)
+```
+
+```{r}
+plot_posterior(mod, param = "emiss_varmu_bar", var=var)
+```
+
+```{r}
+var <- 2
+# Ground-truth means
+gt <- sim_opts$emission_bar[[var]][,1]
+plot_posterior(mod, param = "emiss_mu_bar", var=var, ground_truth = gt)
+```
+
+```{r}
+plot_posterior(mod, param = "emiss_var_bar", var=var)
+```
+
+```{r}
+plot_posterior(mod, param = "emiss_varmu_bar", var=var)
+```
+
+
+```{r}
+var <- 3
+# Ground-truth means
+gt <- sim_opts$emission_bar[[var]][,1]
+plot_posterior(mod, param = "emiss_mu_bar", var=var, ground_truth = gt)
+```
+
+```{r}
+plot_posterior(mod, param = "emiss_var_bar", var=var)
+```
+
+```{r}
+plot_posterior(mod, param = "emiss_varmu_bar", var=var)
+```
+
+```{r}
+trace_plot(mod, "emiss_mu_bar")
+```
+
+```{r}
+trace_plot(mod, "emiss_var_bar")
+```
+
+```{r}
+trace_plot(mod, "emiss_varmu_bar")
+```

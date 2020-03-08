@@ -94,10 +94,14 @@ MAP.mHMM_cont <- function(x) {
   for(param_idx in seq_along(feelthebern)) {
     # if numeric, compute MAP
     if(mode(feelthebern[[param_idx]]) == "numeric") {
-      map_out[[param_idx]] <- apply(feelthebern[[param_idx]], 2, mean)
+      map_out[[param_idx]][["mean"]] <- apply(feelthebern[[param_idx]], 2, mean)
+      map_out[[param_idx]][["SE"]] <- apply(feelthebern[[param_idx]], 2, sd)
     } else {
       map_out[[param_idx]] <- lapply(feelthebern[[param_idx]], function(x) {
-        apply(x, 2, mean)
+        list(
+          "mean" = apply(x, 2, mean),
+          "sd" = apply(x, 2, sd)
+        )
       })
     }
   }
@@ -108,7 +112,7 @@ MAP.mHMM_cont <- function(x) {
 #' Plot histograms of between-subject means
 #'
 #' @param x an mHMM_cont object
-#' @param param string. Which of the parameters should be plotted? Must be one of 'between_means', 'tpm_intercepts', 'residual_var' or 'between_var'
+#' @param param string. Which of the parameters should be plotted? Must be one of 'emiss_mu_bar', 'gamma_int_bar', 'emiss_var_bar' or 'emiss_varmu_bar'
 #' @param var int. Which emission distribution should be plotted? Must be an integer equal to or less than the total number of emission distributions. Index of variables is the same as the order in which they appear in the input data given to the mHMM.
 #' @param ground_truth numeric. Vector of ground-truth values for the parameters equal to the number of emission distributions. Will be added as a red dotted line.
 #'
@@ -118,8 +122,8 @@ MAP.mHMM_cont <- function(x) {
 #'
 #' @return plots a histogram of the parameter of interest for each of the hypothesized latent states
 #' @export
-plot_posterior_means <- function(x, ...) {
-  UseMethod("plot_posterior_means", x)
+plot_posterior <- function(x, ...) {
+  UseMethod("plot_posterior", x)
 }
 #' @export
 plot_posterior.mHMM_cont <- function(x, param = c("emiss_mu_bar",
@@ -190,7 +194,7 @@ plot_posterior.mHMM_cont <- function(x, param = c("emiss_mu_bar",
 #' Make a trace plot of the data
 #'
 #' @param x an mHMM_cont object
-#' @param param string. Which of the parameters should be plotted? Must be one of 'between_means', 'tpm_intercepts', 'residual_var' or 'between_var'
+#' @param param string. Which of the parameters should be plotted? Must be one of 'emiss_mu_bar', 'gamma_int_bar', 'emiss_var_bar' or 'emiss_varmu_bar'
 #' @param var int. Which emission distribution should be plotted? Must be an integer equal to or less than the total number of emission distributions. Index of variables is the same as the order in which they appear in the input data given to the mHMM.
 #'
 #' @import ggplot2
@@ -248,4 +252,13 @@ trace_plot.mHMM_cont <- function(x, param = c("emiss_mu_bar",
     ggtitle(var_name)
 }
 
-# TODO: add method to plot chain over time.
+#' Compute upper and lower values of the 95% credible interval
+#'
+#' @param x posterior values for a parameter
+#'
+#' @return numeric vector. Element 1 is the lower 95% CI, element 2 is the upper 95% CI.
+#'
+#' @export
+credible_interval <- function(x) {
+  apply(x, 2, function(y) quantile(y, c(0.025, 0.25, 0.5, 0.75, 0.975)))
+}

@@ -15,7 +15,7 @@ Imports:
      jsonlite,
      uuid,
      httr
-Remotes: emmekeaarts/mHMMbayes@c5ed3fed36af28c9557c2f90231a00ad29412ffe
+Remotes: emmekeaarts/mHMMbayes@347fc72d2bddcb6803d23cdb274f491fb951ea14
 URL:
     https://github.com/JasperHG90/sleepsimR
 BugReports:
