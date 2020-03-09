@@ -19,7 +19,7 @@ simulate_dataset <- function(n, n_t, zeta, Q, seed) {
   gamma <- getOption("sleepsimR_simulate")[["gamma_bar"]]
   emiss <- getOption("sleepsimR_simulate")[["emission_bar"]]
   m <- nrow(gamma)
-  n_dep <- length(emiss_dist)
+  n_dep <- length(emiss)
   # Set seed
   set.seed(seed)
   # Simulate dataset

@@ -10,7 +10,8 @@ run_mHMM(
   model_seed,
   mcmc_iterations = 2000,
   mcmc_burn_in = 1000,
-  show_progress = TRUE
+  show_progress = TRUE,
+  hyperprior_means = NULL
 )
 }
 \arguments{

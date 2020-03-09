@@ -9,12 +9,12 @@ trace_plot(x, ...)
 \arguments{
 \item{x}{an mHMM_cont object}
 
-\item{param}{string. Which of the parameters should be plotted? Must be one of 'between_means', 'tpm_intercepts', 'residual_var' or 'between_var'}
+\item{param}{string. Which of the parameters should be plotted? Must be one of 'emiss_mu_bar', 'gamma_int_bar', 'emiss_var_bar' or 'emiss_varmu_bar'}
 
 \item{var}{int. Which emission distribution should be plotted? Must be an integer equal to or less than the total number of emission distributions. Index of variables is the same as the order in which they appear in the input data given to the mHMM.}
 }
 \value{
-
+XX
 }
 \description{
 Make a trace plot of the data

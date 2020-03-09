@@ -201,7 +201,7 @@ plot_posterior.mHMM_cont <- function(x, param = c("emiss_mu_bar",
 #' @importFrom magrittr '%>%'
 #' @importFrom assertthat assert_that
 #'
-#' @return
+#' @return XX
 #'
 #' @export
 trace_plot <- function(x, ...) {
@@ -252,11 +252,11 @@ trace_plot.mHMM_cont <- function(x, param = c("emiss_mu_bar",
     ggtitle(var_name)
 }
 
-#' Compute upper and lower values of the 95% credible interval
+#' Compute upper and lower values of the 95\% credible interval
 #'
 #' @param x posterior values for a parameter
 #'
-#' @return numeric vector. Element 1 is the lower 95% CI, element 2 is the upper 95% CI.
+#' @return numeric vector. Element 1 is the lower 95\% CI, element 2 is the upper 95\% CI.
 #'
 #' @export
 credible_interval <- function(x) {

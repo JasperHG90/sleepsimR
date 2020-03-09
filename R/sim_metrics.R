@@ -59,10 +59,10 @@ emperical_MCMC_SE <- function(emp_se, nsim) {
 
 #' Compute coverage
 #'
-#' @param CI list. Each element contains the upper and lower values of the 95% CI of an interation.
+#' @param CI list. Each element contains the upper and lower values of the 95\% CI of an interation.
 #' @param true_param_value numeric scalar. True value of the parameter.
 #'
-#' @return numeric vector with two values: (1) Probability that the 95% CI contains the true value and (2) MCMC Standard Error
+#' @return numeric vector with two values: (1) Probability that the 95\% CI contains the true value and (2) MCMC Standard Error
 #'
 #' @export
 coverage <- function(CI, true_param_value) {
@@ -75,10 +75,10 @@ coverage <- function(CI, true_param_value) {
 
 #' Coverage MCMC Standard Error
 #'
-#' @param coverage
-#' @param nsim
+#' @param coverage XX
+#' @param nsim XX
 #'
-#' @return
+#' @return XX
 coverage_MCMC_SE <- function(coverage, nsim) {
   sqrt((coverage * (1-coverage))/(nsim))
 }
