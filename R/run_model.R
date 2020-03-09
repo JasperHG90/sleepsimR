@@ -12,9 +12,11 @@
 #' @return An mHMM_cont object containing posterior distributions for each of the parameters.
 #'
 #' @importFrom mHMMbayes mHMM_cont
+#' @importFrom assertthat are_equal
 #'
 #' @export
-run_mHMM <- function(data, start_values, model_seed, mcmc_iterations = 2000, mcmc_burn_in = 1000, show_progress = TRUE) {
+run_mHMM <- function(data, start_values, model_seed, mcmc_iterations = 2000, mcmc_burn_in = 1000, show_progress = TRUE,
+                     hyperprior_means = NULL) {
   # Model properties
   mprop = list(
     "m" = nrow(getOption("sleepsimR_simulate")[["gamma_bar"]]),
@@ -25,17 +27,32 @@ run_mHMM <- function(data, start_values, model_seed, mcmc_iterations = 2000, mcm
     "J"=mcmc_iterations,
     "burn_in"=mcmc_burn_in
   )
-  # Set hyper-prior values
-  hyper_priors <- list(
-    # Hyperprior on intercepts of dependent variables
-    emiss_mu0 = list(
+  # Mean hyperprior
+  if(is.null(hyperprior_means)) {
+    hyp_means <- list(
       # Depvar 1
       matrix(c(0,0,0), nrow=1, ncol=mprop$m),
       # Depvar 2
       matrix(c(0,0,0), nrow=1, ncol=mprop$m),
       # Depvar 3
       matrix(c(0,0,0), nrow=1, ncol=mprop$m)
-    ),
+    )
+  } else {
+    assertthat::are_equal(length(hyperprior_means), mprop$n_dep)
+    hyp_means <- vector("list", mprop$n_dep)
+    for(i in seq_along(hyperprior_means)) {
+      assertthat::assert_that(length(hyperprior_means[[i]]) == mprop$m,
+                              msg=paste0("Hyperprior on the group-level means of variable ",
+                                         i, " is not of length ", mprop$m))
+      hyp_means[[i]] <- matrix(
+        hyperprior_means[[i]], nrow=1, ncol=mprop$m
+      )
+    }
+  }
+  # Set hyper-prior values
+  hyper_priors <- list(
+    # Hyperprior on intercepts of dependent variables
+    emiss_mu0 = hyp_means,
     # Hyperprior on the number of subjects in each state
     # Hypothetical subjects --> c(1,1,1)
     emiss_K0 = list(1,1,1),
@@ -47,11 +64,11 @@ run_mHMM <- function(data, start_values, model_seed, mcmc_iterations = 2000, mcm
     # Hypothetical variances between hypothetical subjects
     emiss_V = list(
       # Depvar1
-      c(1,1,1),
+      c(.1,.1,.1),
       # Depvar2
-      c(1,1,1),
+      c(.1,.1,.1),
       # Depvar3
-      c(1,1,1)
+      c(.1,.1,.1)
     ),
     # shape values. Fixed variances of normal emission distributions
     # SUbject-fixed normal emission distribution shape/scale parameters
