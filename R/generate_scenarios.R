@@ -29,11 +29,11 @@ generate_scenarios <- function(seed= 3547912) {
          call. = FALSE)
   }
   if (!requireNamespace("jsonlite", quietly = TRUE)) {
-    stop("Package \"digest\" needed for this function to work. Please install it.",
+    stop("Package \"jsonlite\" needed for this function to work. Please install it.",
          call. = FALSE)
   }
   if (!requireNamespace("assertthat", quietly = TRUE)) {
-    stop("Package \"digest\" needed for this function to work. Please install it.",
+    stop("Package \"assertthat\" needed for this function to work. Please install it.",
          call. = FALSE)
   }
   # Set seed
@@ -41,7 +41,7 @@ generate_scenarios <- function(seed= 3547912) {
   # Number of subjects
   n <- c(10, 20, 40, 80)
   # Number of timesteps for each subject
-  n_t <- c(400,800, 1600, 3200)
+  n_t <- c(400, 800, 1600, 3200)
   # Variance of the between-subject component distributions
   zeta <- c(0.5, 1, 2)
   # Variance of the between-subject transition probabilities
@@ -60,7 +60,7 @@ generate_scenarios <- function(seed= 3547912) {
     lst <- lapply(1:250, function(y) {
       io <- scenarios[x,]
       io$rank <- y
-      io$iteration_id <- digest(paste(io, collapse="_"), algo="md5")
+      io$iteration_id <- digest::digest(paste(io, collapse="_"), algo="md5")
       # Add dummy variable whether or not to save all model data (+-5%)
       io$save_model <- ifelse(runif(nrow(io)) <= 0.05, TRUE, FALSE)
       io
