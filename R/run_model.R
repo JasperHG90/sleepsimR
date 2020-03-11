@@ -8,6 +8,7 @@
 #' @param mcmc_iterations Int. number of iterations for the MCMC algorithm. Defaults to 1000. See mcmc parameter in \link[mHMMbayes]{mHMM_cont}.
 #' @param mcmc_burn_in Int. number of burn-in samples for the MCMC algorithm. Defaults to 500. See mcmc parameter in \link[mHMMbayes]{mHMM_cont}.
 #' @param show_progress Boolean. Should progress of MCMC algorithm be displayed? Defaults to TRUE.
+#' @param hyperprior_means Numeric vector.
 #'
 #' @return An mHMM_cont object containing posterior distributions for each of the parameters.
 #'
@@ -47,7 +48,7 @@ run_mHMM <- function(data, start_values, model_seed, mcmc_iterations = 2000, mcm
                     i, " is not of length ", mprop$m))
       }
       hyp_means[[i]] <- matrix(
-        hyperprior_means[[i]], nrow=1, ncol=mprop$m
+        sort(hyperprior_means[[i]]), nrow=1, ncol=mprop$m
       )
     }
   }
