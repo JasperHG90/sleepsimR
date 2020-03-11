@@ -12,7 +12,6 @@
 #' @return An mHMM_cont object containing posterior distributions for each of the parameters.
 #'
 #' @importFrom mHMMbayes mHMM_cont
-#' @importFrom assertthat are_equal
 #'
 #' @export
 run_mHMM <- function(data, start_values, model_seed, mcmc_iterations = 2000, mcmc_burn_in = 1000, show_progress = TRUE,
@@ -38,12 +37,15 @@ run_mHMM <- function(data, start_values, model_seed, mcmc_iterations = 2000, mcm
       matrix(c(0,0,0), nrow=1, ncol=mprop$m)
     )
   } else {
-    assertthat::are_equal(length(hyperprior_means), mprop$n_dep)
+    if(!(length(hyperprior_means) == mprop$n_dep)) {
+      stop(paste0("User must pass exactly as many hyperprior means as there are dependent variables (", mprop$n_dep, ")"))
+    }
     hyp_means <- vector("list", mprop$n_dep)
     for(i in seq_along(hyperprior_means)) {
-      assertthat::assert_that(length(hyperprior_means[[i]]) == mprop$m,
-                              msg=paste0("Hyperprior on the group-level means of variable ",
-                                         i, " is not of length ", mprop$m))
+      if(!(length(hyperprior_means[[i]]) == mprop$m)) {
+        stop(paste0("Hyperprior on the group-level means of variable ",
+                    i, " is not of length ", mprop$m))
+      }
       hyp_means[[i]] <- matrix(
         hyperprior_means[[i]], nrow=1, ncol=mprop$m
       )

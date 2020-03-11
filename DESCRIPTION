@@ -8,13 +8,12 @@ Description: I used this package in my thesis to simulate
      multivariate sleep state data for multiple persons 
      using the R library mHMMBayes
 Imports:
-     magrittr,
      mHMMbayes,
+     uuid
+Suggests:
+     magrittr,
      assertthat,
-     ggplot2,
-     jsonlite,
-     uuid,
-     httr
+     ggplot2
 Remotes: emmekeaarts/mHMMbayes@347fc72d2bddcb6803d23cdb274f491fb951ea14
 URL:
     https://github.com/JasperHG90/sleepsimR
