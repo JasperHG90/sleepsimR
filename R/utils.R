@@ -117,8 +117,6 @@ MAP.mHMM_cont <- function(x) {
 #' @param ground_truth numeric. Vector of ground-truth values for the parameters equal to the number of emission distributions. Will be added as a red dotted line.
 #'
 #' @importFrom magrittr '%>%'
-#' @import ggplot2
-#' @importFrom assertthat assert_that
 #'
 #' @return plots a histogram of the parameter of interest for each of the hypothesized latent states
 #' @export
@@ -131,6 +129,14 @@ plot_posterior.mHMM_cont <- function(x, param = c("emiss_mu_bar",
                                                  "emiss_var_bar",
                                                  "emiss_varmu_bar"),
                                      var = 1, ground_truth = NULL) {
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("Package \"digest\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+  if (!requireNamespace("assertthat", quietly = TRUE)) {
+    stop("Package \"digest\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
   # Check length of ground_truth means. Should be equal to the number of emission distributions
   if(!is.null(ground_truth)) {
     assertthat::assert_that(length(ground_truth) == x$input$n_dep,
@@ -172,18 +178,18 @@ plot_posterior.mHMM_cont <- function(x, param = c("emiss_mu_bar",
   # Bind
   outd <- do.call(rbind.data.frame, betmu_long)
   # Plot
-  outp <- ggplot(outd, aes(x=val)) +
-    geom_histogram() +
-    theme_bw() +
-    facet_wrap(". ~ var", ncol=1) +
-    geom_vline(data=outd, aes(xintercept=mval),
+  outp <- ggplot2::ggplot(outd, ggplot2::aes(x=val)) +
+    ggplot2::geom_histogram() +
+    ggplot2::theme_bw() +
+    ggplot2::facet_wrap(". ~ var", ncol=1) +
+    geom_vline(data=outd, ggplot2::aes(xintercept=mval),
                linetype = "dashed", color = "#2b8cbe",
                size = 1.1) +
-    ggtitle("Between-subject means for ", var_name)
+    ggplot2::ggtitle("Between-subject means for ", var_name)
   # If ground truth supplied
   if(!is.null(ground_truth)) {
     outp +
-      geom_vline(data = outd, aes(xintercept=gtv),
+      ggplot2::geom_vline(data = outd, ggplot2::aes(xintercept=gtv),
                  linetype = "dotdash", color = "#e34a33",
                  size = 1.1)
   } else {
@@ -197,9 +203,7 @@ plot_posterior.mHMM_cont <- function(x, param = c("emiss_mu_bar",
 #' @param param string. Which of the parameters should be plotted? Must be one of 'emiss_mu_bar', 'gamma_int_bar', 'emiss_var_bar' or 'emiss_varmu_bar'
 #' @param var int. Which emission distribution should be plotted? Must be an integer equal to or less than the total number of emission distributions. Index of variables is the same as the order in which they appear in the input data given to the mHMM.
 #'
-#' @import ggplot2
 #' @importFrom magrittr '%>%'
-#' @importFrom assertthat assert_that
 #'
 #' @return XX
 #'
@@ -213,6 +217,14 @@ trace_plot.mHMM_cont <- function(x, param = c("emiss_mu_bar",
                                               "emiss_var_bar",
                                               "emiss_varmu_bar"),
                                  var = 1) {
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("Package \"digest\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+  if (!requireNamespace("assertthat", quietly = TRUE)) {
+    stop("Package \"digest\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
   # Match arg
   param <- match.arg(param)
   # Remove burn-in samples
@@ -246,10 +258,10 @@ trace_plot.mHMM_cont <- function(x, param = c("emiss_mu_bar",
   # Bind
   outd <- do.call(rbind.data.frame, betmu_long)
   # Plot
-  ggplot(outd, aes(x=iteration, y=val)) +
-    geom_line() +
-    facet_wrap(". ~ var") +
-    ggtitle(var_name)
+  ggplot2::ggplot(outd, ggplot2::aes(x=iteration, y=val)) +
+    ggplot2::geom_line() +
+    ggplot2::facet_wrap(". ~ var") +
+    ggplot2::ggtitle(var_name)
 }
 
 #' Compute upper and lower values of the 95\% credible interval

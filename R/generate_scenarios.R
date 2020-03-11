@@ -21,12 +21,22 @@
 #'          returns a data frame with 36.000 rows - one for each iteration - that contains specific information
 #'          used to generate and model the data
 #'
-#' @importFrom digest digest
-#' @importFrom jsonlite toJSON
-#' @importFrom assertthat are_equal
-#'
 #' @export
 generate_scenarios <- function(seed= 3547912) {
+  # Check dependencies
+  if (!requireNamespace("digest", quietly = TRUE)) {
+    stop("Package \"digest\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+  if (!requireNamespace("jsonlite", quietly = TRUE)) {
+    stop("Package \"digest\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+  if (!requireNamespace("assertthat", quietly = TRUE)) {
+    stop("Package \"digest\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+  # Set seed
   set.seed(seed)
   # Number of subjects
   n <- c(10, 20, 40, 80)
@@ -41,9 +51,9 @@ generate_scenarios <- function(seed= 3547912) {
   # Column names
   colnames(scenarios) <- c("n", "n_t", "zeta", "Q")
   # Create unique id for each scenario
-  scenarios$scenario_id <- vapply(1:nrow(scenarios), function(x) digest(paste(scenarios[x,],
+  scenarios$scenario_id <- vapply(1:nrow(scenarios), function(x) digest::digest(paste(scenarios[x,],
                                                                               collapse="_"),
-                                                                        algo = "md5"),
+                                                                              algo = "md5"),
                                   "string")
   # Create iteration for each scenario
   scenarios <- lapply(1:nrow(scenarios), function(x) {

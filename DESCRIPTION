@@ -9,9 +9,9 @@ Description: I used this package in my thesis to simulate
      using the R library mHMMBayes
 Imports:
      mHMMbayes,
-     uuid
+     uuid,
+     magrittr
 Suggests:
-     magrittr,
      assertthat,
      ggplot2
 Remotes: emmekeaarts/mHMMbayes@347fc72d2bddcb6803d23cdb274f491fb951ea14
