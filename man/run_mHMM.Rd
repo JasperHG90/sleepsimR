@@ -11,7 +11,8 @@ run_mHMM(
   model_seed,
   mcmc_iterations = 2000,
   mcmc_burn_in = 1000,
-  show_progress = TRUE
+  show_progress = TRUE,
+  order_data = TRUE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ run_mHMM(
 \item{mcmc_burn_in}{Int. number of burn-in samples for the MCMC algorithm. Defaults to 500. See mcmc parameter in \link[mHMMbayes]{mHMM_cont}.}
 
 \item{show_progress}{Boolean. Should progress of MCMC algorithm be displayed? Defaults to TRUE.}
+
+\item{order_data}{Boolean. Should hyperpriors and start values be sorted from lowest to highest? This is required to record label switching. See \link[mHMMbayes]{mHMM_cont}.}
 }
 \value{
 An mHMM_cont object containing posterior distributions for each of the parameters.

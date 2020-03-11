@@ -9,13 +9,15 @@
 #' @param mcmc_iterations Int. number of iterations for the MCMC algorithm. Defaults to 1000. See mcmc parameter in \link[mHMMbayes]{mHMM_cont}.
 #' @param mcmc_burn_in Int. number of burn-in samples for the MCMC algorithm. Defaults to 500. See mcmc parameter in \link[mHMMbayes]{mHMM_cont}.
 #' @param show_progress Boolean. Should progress of MCMC algorithm be displayed? Defaults to TRUE.
+#' @param order_data Boolean. Should hyperpriors and start values be sorted from lowest to highest? This is required to record label switching. See \link[mHMMbayes]{mHMM_cont}.
 #'
 #' @return An mHMM_cont object containing posterior distributions for each of the parameters.
 #'
 #' @importFrom mHMMbayes mHMM_cont
 #'
 #' @export
-run_mHMM <- function(data, start_values, hyperprior_means, model_seed, mcmc_iterations = 2000, mcmc_burn_in = 1000, show_progress = TRUE) {
+run_mHMM <- function(data, start_values, hyperprior_means, model_seed, mcmc_iterations = 2000, mcmc_burn_in = 1000, show_progress = TRUE,
+                     order_data = TRUE) {
   # Model properties
   mprop = list(
     "m" = nrow(getOption("sleepsimR_simulate")[["gamma_bar"]]),
@@ -37,7 +39,7 @@ run_mHMM <- function(data, start_values, hyperprior_means, model_seed, mcmc_iter
                   i, " is not of length ", mprop$m))
     }
     hyp_means[[i]] <- matrix(
-      sort(hyperprior_means[[i]]), nrow=1, ncol=mprop$m
+      ifelse(order_data, sort(hyperprior_means[[i]]), hyperprior_means[[i]]), nrow=1, ncol=mprop$m
     )
   }
   # Sort the start values by size
@@ -46,7 +48,8 @@ run_mHMM <- function(data, start_values, hyperprior_means, model_seed, mcmc_iter
     if(idx == 1) {
       next
     }
-    start_values[[idx]] <- start_values[[idx]][sort.list(m[,1]),]
+    start_values[[idx]] <- ifelse(order_data, start_values[[idx]][sort.list(start_values[[idx]][,1]),],
+                                  start_values[[idx]])
   }
   # Set hyper-prior values
   hyper_priors <- list(

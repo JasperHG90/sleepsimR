@@ -185,7 +185,7 @@ plot_posterior.mHMM_cont <- function(x, param = c("emiss_mu_bar",
     ggplot2::geom_histogram() +
     ggplot2::theme_bw() +
     ggplot2::facet_wrap(". ~ var", ncol=1) +
-    geom_vline(data=outd, ggplot2::aes(xintercept=mval),
+    ggplot2::geom_vline(data=outd, ggplot2::aes(xintercept=mval),
                linetype = "dashed", color = "#2b8cbe",
                size = 1.1) +
     ggplot2::ggtitle("Between-subject means for ", var_name)
