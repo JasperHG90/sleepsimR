@@ -2,11 +2,11 @@
 
 #' Simulate a sleep dataset for use in an mHMM model
 #'
-#' @param n number of subjects
-#' @param n_t number of observations for each subject
-#' @param zeta between-subject variance of the emission distributions
-#' @param Q between-subject variance of the transition probability matrix
-#' @param seed
+#' @param n int. number of subjects.
+#' @param n_t int. number of observations for each subject.
+#' @param zeta float. between-subject variance of the emission distributions.
+#' @param Q float. between-subject variance of the transition probability matrix.
+#' @param seed int. random seed used to generate the dataset.
 #'
 #' @return list containing states and emission distribution observed data. See \link[mHMMbayes]{sim_mHMM}.
 #'

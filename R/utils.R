@@ -48,6 +48,9 @@ burn.mHMM_cont <- function(x) {
     # If character, pass
     if(mode(x[[idx]]) == "character") {
       next
+    # If label switching, pass
+    } else if(names(x)[idx] == "label_switch") {
+      next
     } else if (mode(x[[idx]]) == "list") {
       for(subj_idx in seq_along(x[[idx]])) {
         x[[idx]][[subj_idx]] <- x[[idx]][[subj_idx]][(burn_in+1):J,]
@@ -93,7 +96,7 @@ MAP.mHMM_cont <- function(x) {
   names(map_out) <- names(feelthebern)
   for(param_idx in seq_along(feelthebern)) {
     # if numeric, compute MAP
-    if(mode(feelthebern[[param_idx]]) == "numeric") {
+    if(mode(feelthebern[[param_idx]]) == "numeric" & names(feelthebern)[param_idx] != "label_switch") {
       map_out[[param_idx]][["mean"]] <- apply(feelthebern[[param_idx]], 2, mean)
       map_out[[param_idx]][["SE"]] <- apply(feelthebern[[param_idx]], 2, sd)
     } else {
@@ -130,11 +133,11 @@ plot_posterior.mHMM_cont <- function(x, param = c("emiss_mu_bar",
                                                  "emiss_varmu_bar"),
                                      var = 1, ground_truth = NULL) {
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
-    stop("Package \"digest\" needed for this function to work. Please install it.",
+    stop("Package \"ggplot2\" needed for this function to work. Please install it.",
          call. = FALSE)
   }
   if (!requireNamespace("assertthat", quietly = TRUE)) {
-    stop("Package \"digest\" needed for this function to work. Please install it.",
+    stop("Package \"ggplot2\" needed for this function to work. Please install it.",
          call. = FALSE)
   }
   # Check length of ground_truth means. Should be equal to the number of emission distributions
@@ -218,11 +221,11 @@ trace_plot.mHMM_cont <- function(x, param = c("emiss_mu_bar",
                                               "emiss_varmu_bar"),
                                  var = 1) {
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
-    stop("Package \"digest\" needed for this function to work. Please install it.",
+    stop("Package \"ggplot2\" needed for this function to work. Please install it.",
          call. = FALSE)
   }
   if (!requireNamespace("assertthat", quietly = TRUE)) {
-    stop("Package \"digest\" needed for this function to work. Please install it.",
+    stop("Package \"assertthat\" needed for this function to work. Please install it.",
          call. = FALSE)
   }
   # Match arg
@@ -272,5 +275,5 @@ trace_plot.mHMM_cont <- function(x, param = c("emiss_mu_bar",
 #'
 #' @export
 credible_interval <- function(x) {
-  apply(x, 2, function(y) quantile(y, c(0.025, 0.25, 0.5, 0.75, 0.975)))
+  apply(x, 2, function(y) quantile(y, c(0.025, 0.975)))
 }

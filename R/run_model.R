@@ -3,20 +3,19 @@
 #' Run an mHMM on a simulated sleep dataset
 #'
 #' @param data Matrix. data set used to run the mHMM. See s_data parameter in \link[mHMMbayes]{mHMM_cont}.
-#' @param start_values List. start values for relevant parameters. See start_val parameter in \link[mHMMbayes]{mHMM_cont}.
+#' @param start_values List (must be unnamed). start values for relevant parameters. See start_val parameter in \link[mHMMbayes]{mHMM_cont}.
+#' @param hyperprior_means Numeric vector. Contains the hyperprior value for the between-subject distribution means. See \link[mHMMbayes]{mHMM_cont}.
 #' @param model_seed Int. Random seed that is set before running the model.
 #' @param mcmc_iterations Int. number of iterations for the MCMC algorithm. Defaults to 1000. See mcmc parameter in \link[mHMMbayes]{mHMM_cont}.
 #' @param mcmc_burn_in Int. number of burn-in samples for the MCMC algorithm. Defaults to 500. See mcmc parameter in \link[mHMMbayes]{mHMM_cont}.
 #' @param show_progress Boolean. Should progress of MCMC algorithm be displayed? Defaults to TRUE.
-#' @param hyperprior_means Numeric vector.
 #'
 #' @return An mHMM_cont object containing posterior distributions for each of the parameters.
 #'
 #' @importFrom mHMMbayes mHMM_cont
 #'
 #' @export
-run_mHMM <- function(data, start_values, model_seed, mcmc_iterations = 2000, mcmc_burn_in = 1000, show_progress = TRUE,
-                     hyperprior_means = NULL) {
+run_mHMM <- function(data, start_values, hyperprior_means, model_seed, mcmc_iterations = 2000, mcmc_burn_in = 1000, show_progress = TRUE) {
   # Model properties
   mprop = list(
     "m" = nrow(getOption("sleepsimR_simulate")[["gamma_bar"]]),
@@ -27,30 +26,27 @@ run_mHMM <- function(data, start_values, model_seed, mcmc_iterations = 2000, mcm
     "J"=mcmc_iterations,
     "burn_in"=mcmc_burn_in
   )
-  # Mean hyperprior
-  if(is.null(hyperprior_means)) {
-    hyp_means <- list(
-      # Depvar 1
-      matrix(c(0,0,0), nrow=1, ncol=mprop$m),
-      # Depvar 2
-      matrix(c(0,0,0), nrow=1, ncol=mprop$m),
-      # Depvar 3
-      matrix(c(0,0,0), nrow=1, ncol=mprop$m)
+  # Checks on Mean hyperprior
+  if(!(length(hyperprior_means) == mprop$n_dep)) {
+    stop(paste0("User must pass exactly as many hyperprior means as there are dependent variables (", mprop$n_dep, ")"))
+  }
+  hyp_means <- vector("list", mprop$n_dep)
+  for(i in seq_along(hyperprior_means)) {
+    if(!(length(hyperprior_means[[i]]) == mprop$m)) {
+      stop(paste0("Hyperprior on the group-level means of variable ",
+                  i, " is not of length ", mprop$m))
+    }
+    hyp_means[[i]] <- matrix(
+      sort(hyperprior_means[[i]]), nrow=1, ncol=mprop$m
     )
-  } else {
-    if(!(length(hyperprior_means) == mprop$n_dep)) {
-      stop(paste0("User must pass exactly as many hyperprior means as there are dependent variables (", mprop$n_dep, ")"))
+  }
+  # Sort the start values by size
+  for(idx in seq_along(start_values)) {
+    # First is gamma
+    if(idx == 1) {
+      next
     }
-    hyp_means <- vector("list", mprop$n_dep)
-    for(i in seq_along(hyperprior_means)) {
-      if(!(length(hyperprior_means[[i]]) == mprop$m)) {
-        stop(paste0("Hyperprior on the group-level means of variable ",
-                    i, " is not of length ", mprop$m))
-      }
-      hyp_means[[i]] <- matrix(
-        sort(hyperprior_means[[i]]), nrow=1, ncol=mprop$m
-      )
-    }
+    start_values[[idx]] <- start_values[[idx]][sort.list(m[,1]),]
   }
   # Set hyper-prior values
   hyper_priors <- list(
