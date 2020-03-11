@@ -7,17 +7,19 @@
 run_mHMM(
   data,
   start_values,
+  hyperprior_means,
   model_seed,
   mcmc_iterations = 2000,
   mcmc_burn_in = 1000,
-  show_progress = TRUE,
-  hyperprior_means = NULL
+  show_progress = TRUE
 )
 }
 \arguments{
 \item{data}{Matrix. data set used to run the mHMM. See s_data parameter in \link[mHMMbayes]{mHMM_cont}.}
 
-\item{start_values}{List. start values for relevant parameters. See start_val parameter in \link[mHMMbayes]{mHMM_cont}.}
+\item{start_values}{List (must be unnamed). start values for relevant parameters. See start_val parameter in \link[mHMMbayes]{mHMM_cont}.}
+
+\item{hyperprior_means}{Numeric vector. Contains the hyperprior value for the between-subject distribution means. See \link[mHMMbayes]{mHMM_cont}.}
 
 \item{model_seed}{Int. Random seed that is set before running the model.}
 

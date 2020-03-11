@@ -43,7 +43,7 @@ simulate_dataset <- function(n, n_t, zeta, Q, seed) {
     # Between-subject variance for TPM
     var_gamma = Q,
     # Between-subject variance for emission distributions
-    var_emiss = zeta
+    var_emiss = rep(zeta, m)
   )
   # Return
   return(data_simulated)

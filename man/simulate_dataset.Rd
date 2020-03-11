@@ -7,15 +7,15 @@
 simulate_dataset(n, n_t, zeta, Q, seed)
 }
 \arguments{
-\item{n}{number of subjects}
+\item{n}{int. number of subjects.}
 
-\item{n_t}{number of observations for each subject}
+\item{n_t}{int. number of observations for each subject.}
 
-\item{zeta}{between-subject variance of the emission distributions}
+\item{zeta}{float. between-subject variance of the emission distributions.}
 
-\item{Q}{between-subject variance of the transition probability matrix}
+\item{Q}{float. between-subject variance of the transition probability matrix.}
 
-\item{seed}{}
+\item{seed}{int. random seed used to generate the dataset.}
 }
 \value{
 list containing states and emission distribution observed data. See \link[mHMMbayes]{sim_mHMM}.
