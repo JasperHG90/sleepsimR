@@ -275,5 +275,5 @@ trace_plot.mHMM_cont <- function(x, param = c("emiss_mu_bar",
 #'
 #' @export
 credible_interval <- function(x) {
-  apply(x, 2, function(y) quantile(y, c(0.025, 0.975)))
+  unname(apply(x, 2, function(y) quantile(y, c(0.025, 0.975))))
 }
