@@ -97,13 +97,13 @@ MAP.mHMM_cont <- function(x) {
   for(param_idx in seq_along(feelthebern)) {
     # if numeric, compute MAP
     if(mode(feelthebern[[param_idx]]) == "numeric" & names(feelthebern)[param_idx] != "label_switch") {
-      map_out[[param_idx]][["mean"]] <- apply(feelthebern[[param_idx]], 2, mean)
-      map_out[[param_idx]][["SE"]] <- apply(feelthebern[[param_idx]], 2, sd)
+      map_out[[param_idx]][["mean"]] <- unname(apply(feelthebern[[param_idx]], 2, mean))
+      map_out[[param_idx]][["SE"]] <- unname(apply(feelthebern[[param_idx]], 2, sd))
     } else {
       map_out[[param_idx]] <- lapply(feelthebern[[param_idx]], function(x) {
         list(
-          "mean" = apply(x, 2, mean),
-          "sd" = apply(x, 2, sd)
+          "mean" = unname(apply(x, 2, mean)),
+          "SE" = unname(apply(x, 2, sd))
         )
       })
     }
