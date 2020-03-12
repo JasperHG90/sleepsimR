@@ -48,8 +48,9 @@ run_mHMM <- function(data, start_values, hyperprior_means, model_seed, mcmc_iter
     if(idx == 1) {
       next
     }
-    start_values[[idx]] <- ifelse(order_data, start_values[[idx]][sort.list(start_values[[idx]][,1]),],
-                                  start_values[[idx]])
+    if(order_data) {
+      start_values[[idx]] <- start_values[[idx]][sort.list(start_values[[idx]][,1]),]
+    }
   }
   # Set hyper-prior values
   hyper_priors <- list(
