@@ -28,6 +28,9 @@ run_mHMM <- function(data, start_values, hyperprior_means, model_seed, mcmc_iter
     "J"=mcmc_iterations,
     "burn_in"=mcmc_burn_in
   )
+  # Order!
+  state_orders <- vector("list", length(hyp_means))
+  names(state_orders) <- colnames(tdf[,-1])
   # Checks on Mean hyperprior
   if(!(length(hyperprior_means) == mprop$n_dep)) {
     stop(paste0("User must pass exactly as many hyperprior means as there are dependent variables (", mprop$n_dep, ")"))
@@ -49,6 +52,8 @@ run_mHMM <- function(data, start_values, hyperprior_means, model_seed, mcmc_iter
       next
     }
     if(order_data) {
+      # Save order (so I can do the same to ground-truth values)
+      state_orders[[idx]] <- sort.list(start_values[[idx]][,1])
       start_values[[idx]] <- start_values[[idx]][sort.list(start_values[[idx]][,1]),]
     }
   }
@@ -103,6 +108,8 @@ run_mHMM <- function(data, start_values, hyperprior_means, model_seed, mcmc_iter
                               mcmc = mcmcOpts,
                               emiss_hyp_prior = hyper_priors,
                               show_progress=show_progress)
+  # Add state orders
+  mod$state_orders <- state_orders
   # Return model
   return(mod)
 }
