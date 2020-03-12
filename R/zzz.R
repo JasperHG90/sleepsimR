@@ -9,21 +9,17 @@
   options(
     sleepsimR_simulate = list(
       # List of estimated (first element) and set residual variances
-      "kappa" <- c(
-        jsonlite::toJSON(
+      "kappa" <- list(
           list(
             "EEG_Fpz_Cz_beta" = c(0.64, 0.87, 0.81),
             "EOG_median_beta" = c(0.134, 0.28, 0.22),
             "EOG_min_theta" = c(0.37, 0.35, 0.52)
-          )
-        ),
-        jsonlite::toJSON(
+          ),
           list(
             "EEG_Fpz_Cz_beta" = c(0.11, 0.16, 0.15),
             "EOG_median_beta" = c(0.124, 0.15, 0.13),
             "EOG_min_theta" = c(0.16, 0.12, 0.14)
           )
-        )
       ),
       # Between-subject TPM
       "gamma_bar" = matrix(
