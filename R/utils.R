@@ -48,7 +48,7 @@ burn.mHMM_cont <- function(x) {
     # If character, pass
     if(mode(x[[idx]]) == "character") {
       next
-    # If label switching, pass
+      # If label switching, pass
     } else if(names(x)[idx] == "label_switch") {
       next
     } else if (mode(x[[idx]]) == "list") {
@@ -96,7 +96,10 @@ MAP.mHMM_cont <- function(x) {
   names(map_out) <- names(feelthebern)
   for(param_idx in seq_along(feelthebern)) {
     # if numeric, compute MAP
-    if(mode(feelthebern[[param_idx]]) == "numeric" & names(feelthebern)[param_idx] != "label_switch") {
+    if(mode(feelthebern[[param_idx]]) == "numeric") {
+      if(names(feelthebern)[param_idx] == "label_switch") {
+        next
+      }
       map_out[[param_idx]][["mean"]] <- unname(apply(feelthebern[[param_idx]], 2, mean))
       map_out[[param_idx]][["SE"]] <- unname(apply(feelthebern[[param_idx]], 2, sd))
     } else {
@@ -108,6 +111,8 @@ MAP.mHMM_cont <- function(x) {
       })
     }
   }
+  # Remove label switch
+  map_out$label_switch <- NULL
   # Return
   return(map_out)
 }
@@ -128,9 +133,9 @@ plot_posterior <- function(x, ...) {
 }
 #' @export
 plot_posterior.mHMM_cont <- function(x, param = c("emiss_mu_bar",
-                                                 "gamma_int_bar",
-                                                 "emiss_var_bar",
-                                                 "emiss_varmu_bar"),
+                                                  "gamma_int_bar",
+                                                  "emiss_var_bar",
+                                                  "emiss_varmu_bar"),
                                      var = 1, ground_truth = NULL) {
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("Package \"ggplot2\" needed for this function to work. Please install it.",
@@ -186,15 +191,15 @@ plot_posterior.mHMM_cont <- function(x, param = c("emiss_mu_bar",
     ggplot2::theme_bw() +
     ggplot2::facet_wrap(". ~ var", ncol=1) +
     ggplot2::geom_vline(data=outd, ggplot2::aes(xintercept=mval),
-               linetype = "dashed", color = "#2b8cbe",
-               size = 1.1) +
+                        linetype = "dashed", color = "#2b8cbe",
+                        size = 1.1) +
     ggplot2::ggtitle("Between-subject means for ", var_name)
   # If ground truth supplied
   if(!is.null(ground_truth)) {
     outp +
       ggplot2::geom_vline(data = outd, ggplot2::aes(xintercept=gtv),
-                 linetype = "dotdash", color = "#e34a33",
-                 size = 1.1)
+                          linetype = "dotdash", color = "#e34a33",
+                          size = 1.1)
   } else {
     outp
   }
