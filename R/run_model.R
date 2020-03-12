@@ -29,7 +29,7 @@ run_mHMM <- function(data, start_values, hyperprior_means, model_seed, mcmc_iter
     "burn_in"=mcmc_burn_in
   )
   # Order!
-  state_orders <- vector("list", length(hyp_means))
+  state_orders <- vector("list", mprop$n_dep)
   names(state_orders) <- colnames(tdf[,-1])
   # Checks on Mean hyperprior
   if(!(length(hyperprior_means) == mprop$n_dep)) {
