@@ -93,17 +93,17 @@ generate_scenarios <- function(seed= 3547912) {
   start_emiss <- lapply(1:36000, function(x) {
     jsonlite::toJSON(list(
       #EEG_Fpz_Cz_max_gamma
-      EEG_Fpz_Cz_mean_beta = c( -.38 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1),
-                                0 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1),
-                                1.13 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1)),
+      EEG_Fpz_Cz_mean_beta = c( -.38 + runif(1, -.2, .2), 0.1 + runif(2, -.1,.1),
+                                0 + runif(1, -.2, .2), 0.1 + runif(2, -.1,.1),
+                                1.13 + runif(1, -.2, .2), 0.1 + runif(2, -.1,.1)),
       # EOG_median_theta
-      EOG_median_theta = c( .5 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1),
-                            -.6 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1),
-                            .4 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1)),
+      EOG_median_theta = c( .5 + runif(1, -.2, .2), 0.1 + runif(2, -.1,.1),
+                            -.6 + runif(1, -.2, .2), 0.1 + runif(2, -.1,.1),
+                            .4 + runif(1, -.2, .2), 0.1 + runif(2, -.1,.1)),
       # EOG_min_beta
-      EOG_min_beta = c( 1 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1),
-                        -.9 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1),
-                        -.1 + runif(1, -.2, .2), 0.1 + runif(1, -.1,.1))
+      EOG_min_beta = c( 1 + runif(1, -.2, .2), 0.1 + runif(2, -.1,.1),
+                        -.9 + runif(1, -.2, .2), 0.1 + runif(2, -.1,.1),
+                        -.1 + runif(1, -.2, .2), 0.1 + runif(2, -.1,.1))
     ), pretty = TRUE, flatten = TRUE)
   })
   # Add to data
