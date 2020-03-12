@@ -15,7 +15,7 @@ Suggests:
      assertthat,
      ggplot2,
      jsonlite
-Remotes: emmekeaarts/mHMMbayes@347fc72d2bddcb6803d23cdb274f491fb951ea14
+Remotes: emmekeaarts/mHMMbayes@369420e05cb96e6af761a8bd9bd30b8539d27a24
 URL:
     https://github.com/JasperHG90/sleepsimR
 BugReports:
