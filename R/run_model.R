@@ -30,7 +30,7 @@ run_mHMM <- function(data, start_values, hyperprior_means, model_seed, mcmc_iter
   )
   # Order!
   state_orders <- vector("list", mprop$n_dep)
-  names(state_orders) <- colnames(tdf[,-1])
+  names(state_orders) <- colnames(data[,-1])
   # Checks on Mean hyperprior
   if(!(length(hyperprior_means) == mprop$n_dep)) {
     stop(paste0("User must pass exactly as many hyperprior means as there are dependent variables (", mprop$n_dep, ")"))
