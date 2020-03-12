@@ -53,7 +53,7 @@ run_mHMM <- function(data, start_values, hyperprior_means, model_seed, mcmc_iter
     }
     if(order_data) {
       # Save order (so I can do the same to ground-truth values)
-      state_orders[[idx]] <- sort.list(start_values[[idx]][,1])
+      state_orders[[idx-1]] <- sort.list(start_values[[idx]][,1])
       start_values[[idx]] <- start_values[[idx]][sort.list(start_values[[idx]][,1]),]
     }
   }
