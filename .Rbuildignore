@@ -1,7 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^dev$
-^LICENSE.\txt$
+^LICENSE\.txt$
 ^experiments$
 ^testing$
 ^notes$
@@ -9,3 +9,4 @@
 ^_pkgdown\.yml$
 ^docs$
 ^research-docs$
+^\.travis\.yml
