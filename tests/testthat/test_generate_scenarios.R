@@ -2,7 +2,7 @@ context("Test that generated scenarios are equal to the scenarios I used in my t
 
 test_that("Can generate simulation scenarios and they are equal to the scenarios in the program <sleepsimR-api>", {
   # Load sample data
-  sd <- read.csv("tests/testthat/data/scen_sample.csv.gz", stringsAsFactors = FALSE)
+  sd <- read.csv("data/scen_sample.csv.gz", stringsAsFactors = FALSE)
   sd <- sd[,-1]
   # Generate scenarios
   scen <- generate_scenarios()

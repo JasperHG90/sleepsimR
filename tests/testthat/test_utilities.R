@@ -2,13 +2,13 @@ context("Test utility functions (MAP values, posterior plots etc)")
 
 test_that("Can get MAP estimates", {
   # Load model
-  mod <- readRDS("tests/testthat/data/mod.rds")
+  mod <- readRDS("data/mod.rds")
   # Expect class
   expect_s3_class(mod, "mHMM_cont")
   # Get MAP estimates
   me <- MAP(mod)
   # Assert length
-  expect_length(me, 11)
+  expect_length(me, 9)
   # Of each important variable, check values
   gamma_int <- me$gamma_int_bar
   emiss <- list(emiss_mu, emiss_var, emiss_varmu)
@@ -31,19 +31,19 @@ test_that("Can get MAP estimates", {
 })
 
 test_that("Can retrieve credible intervals", {
-  mod <- readRDS("tests/testthat/data/mod.rds")
+  mod <- readRDS("data/mod.rds")
   # Burn
   mod <- burn(mod)
   ci <- credible_interval(mod$gamma_int_bar)
   # Expect 2 rows (2.5% and 97.5%)
-  expect_length(nrow(ci), 2)
+  expect_equal(nrow(ci), 2)
   # Expect 6 columns (6 intercepts)
-  expect_length(ncol(ci), 6)
+  expect_equal(ncol(ci), 6)
 })
 
 test_that("Can plot posterior distributions", {
   # Load model
-  mod <- readRDS("tests/testthat/data/mod.rds")
+  mod <- readRDS("data/mod.rds")
   for(idx in c(1,2,3)) {
     op <- plot_posterior(mod, var=idx)
     expect_s3_class(op, "ggplot")
@@ -52,7 +52,7 @@ test_that("Can plot posterior distributions", {
 
 test_that("Can plot trace plot", {
   # Load model
-  mod <- readRDS("tests/testthat/data/mod.rds")
+  mod <- readRDS("data/mod.rds")
   for(idx in c(1,2,3)) {
     op <- trace_plot(mod, var=idx)
     expect_s3_class(op, "ggplot")

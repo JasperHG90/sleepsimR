@@ -2,7 +2,7 @@ context("Simulate a dataset and run an mHMM")
 
 test_that("Can simulate a dataset and run the mHMM", {
   # Load sample data
-  sd <- read.csv("tests/testthat/data/scen_sample.csv.gz", stringsAsFactors = FALSE)
+  sd <- read.csv("data/scen_sample.csv.gz", stringsAsFactors = FALSE)
   sd <- sd[,-1]
   # Select a scenario
   scen <- sd[1,]
