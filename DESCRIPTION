@@ -12,9 +12,10 @@ Imports:
      uuid,
      magrittr
 Suggests:
-     assertthat,
-     ggplot2,
-     jsonlite
+    assertthat,
+    ggplot2,
+    jsonlite,
+    testthat
 Remotes: emmekeaarts/mHMMbayes@369420e05cb96e6af761a8bd9bd30b8539d27a24
 URL:
     https://github.com/JasperHG90/sleepsimR
