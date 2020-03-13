@@ -7,14 +7,14 @@ test_that("Can simulate a dataset and run the mHMM", {
   # Select a scenario
   scen <- sd[1,]
   # Set #iterations low
-  scen$n_t <- 10
+  scen$n_t <- 100
   scen$n <- 3
   # Simulate dataset
   d <- simulate_dataset(scen$n, scen$n_t, scen$zeta, scen$Q, scen$dsim_seed)
   # Expect dims
   expect_equal(length(d), 2)
-  expect_equal(dim(d[[1]]), c(4000,2))
-  expect_equal(dim(d[[2]]), c(4000,4))
+  expect_equal(dim(d[[1]]), c(300,2))
+  expect_equal(dim(d[[2]]), c(300,4))
   # To data frame
   tdf <- data.frame(
     id = d$obs[,1],
@@ -22,6 +22,7 @@ test_that("Can simulate a dataset and run the mHMM", {
     EOG_median_theta = d$obs[,3],
     EOG_min_beta = d$obs[,4]
   )
+  states <- d$states[,2]
   # Make hyperprior values
   hyp_priors <- list(
     as.vector(tapply(tdf[,-1]$EEG_mean_beta, states, mean)),

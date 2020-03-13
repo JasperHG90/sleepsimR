@@ -48,8 +48,10 @@ burn.mHMM_cont <- function(x) {
     # If character, pass
     if(mode(x[[idx]]) == "character") {
       next
-      # If label switching, pass
+      # If label switching or state orders, pass
     } else if(names(x)[idx] == "label_switch") {
+      next
+    } else if(names(x)[idx] == "state_orders") {
       next
     } else if (mode(x[[idx]]) == "list") {
       for(subj_idx in seq_along(x[[idx]])) {
@@ -95,13 +97,13 @@ MAP.mHMM_cont <- function(x) {
   # Names
   names(map_out) <- names(feelthebern)
   for(param_idx in seq_along(feelthebern)) {
+    if(names(feelthebern)[param_idx] %in% c("label_switch", "input", "state_orders")) {
+      next
+    }
     # if numeric, compute MAP
     if(mode(feelthebern[[param_idx]]) == "numeric") {
-      if(names(feelthebern)[param_idx] == "label_switch") {
-        next
-      }
-      map_out[[param_idx]][["mean"]] <- unname(apply(feelthebern[[param_idx]], 2, mean))
-      map_out[[param_idx]][["SE"]] <- unname(apply(feelthebern[[param_idx]], 2, sd))
+        map_out[[param_idx]][["mean"]] <- unname(apply(feelthebern[[param_idx]], 2, mean))
+        map_out[[param_idx]][["SE"]] <- unname(apply(feelthebern[[param_idx]], 2, sd))
     } else {
       map_out[[param_idx]] <- lapply(feelthebern[[param_idx]], function(x) {
         list(
