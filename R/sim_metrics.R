@@ -69,7 +69,7 @@ coverage <- function(CI, true_param_value) {
   cvr <- mean(vapply(CI, function(x) (x[1] <= true_param_value) & (true_param_value <= x[2]), 0))
   cvrSE <- coverage_MCMC_SE(cvr, length(CI))
   ret <- c(cvr, cvrSE)
-  names(ret) <- c("Coverage", "MCMC_SE")
+  names(ret) <- c("coverage", "MCMC_SE")
   return(ret)
 }
 
