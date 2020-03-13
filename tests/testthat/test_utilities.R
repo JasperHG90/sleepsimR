@@ -30,6 +30,17 @@ test_that("Can get MAP estimates", {
   }
 })
 
+test_that("Can retrieve credible intervals", {
+  mod <- readRDS("tests/testthat/data/mod.rds")
+  # Burn
+  mod <- burn(mod)
+  ci <- credible_interval(mod$gamma_int_bar)
+  # Expect 2 rows (2.5% and 97.5%)
+  expect_length(nrow(ci), 2)
+  # Expect 6 columns (6 intercepts)
+  expect_length(ncol(ci), 6)
+})
+
 test_that("Can plot posterior distributions", {
   # Load model
   mod <- readRDS("tests/testthat/data/mod.rds")
