@@ -29,3 +29,21 @@ test_that("Can get MAP estimates", {
     }
   }
 })
+
+test_that("Can plot posterior distributions", {
+  # Load model
+  mod <- readRDS("tests/testthat/data/mod.rds")
+  for(idx in c(1,2,3)) {
+    op <- plot_posterior(mod, var=idx)
+    expect_s3_class(op, "ggplot")
+  }
+})
+
+test_that("Can plot trace plot", {
+  # Load model
+  mod <- readRDS("tests/testthat/data/mod.rds")
+  for(idx in c(1,2,3)) {
+    op <- trace_plot(mod, var=idx)
+    expect_s3_class(op, "ggplot")
+  }
+})
