@@ -11,7 +11,7 @@ test_that("Can get MAP estimates", {
   expect_length(me, 9)
   # Of each important variable, check values
   gamma_int <- me$gamma_int_bar
-  emiss <- list(emiss_mu, emiss_var, emiss_varmu)
+  emiss <- list(me$emiss_mu, me$emiss_var, me$emiss_varmu)
   # Expect names and length
   expect_length(gamma_int, 2)
   expect_named(gamma_int, c("mean", "SE"))
