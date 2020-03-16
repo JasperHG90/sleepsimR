@@ -103,11 +103,13 @@ MAP.mHMM_cont <- function(x) {
     # if numeric, compute MAP
     if(mode(feelthebern[[param_idx]]) == "numeric") {
         map_out[[param_idx]][["mean"]] <- unname(apply(feelthebern[[param_idx]], 2, mean))
+        map_out[[param_idx]][["median"]] <- unname(apply(freelthebern[[param_idx]], 2, median))
         map_out[[param_idx]][["SE"]] <- unname(apply(feelthebern[[param_idx]], 2, sd))
     } else {
       map_out[[param_idx]] <- lapply(feelthebern[[param_idx]], function(x) {
         list(
           "mean" = unname(apply(x, 2, mean)),
+          "median" = unname(apply(x, 2, median)),
           "SE" = unname(apply(x, 2, sd))
         )
       })
