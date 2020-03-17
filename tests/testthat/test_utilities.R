@@ -13,18 +13,20 @@ test_that("Can get MAP estimates", {
   gamma_int <- me$gamma_int_bar
   emiss <- list(me$emiss_mu, me$emiss_var, me$emiss_varmu)
   # Expect names and length
-  expect_length(gamma_int, 2)
-  expect_named(gamma_int, c("mean", "SE"))
+  expect_length(gamma_int, 3)
+  expect_named(gamma_int, c("mean", "median", "SE"))
   expect_length(gamma_int$mean, 6)
+  expect_length(gamma_int$median, 6)
   expect_length(gamma_int$SE, 6)
   # For each in emiss, check
   for(var_idx in seq_along(emiss)) {
     var <- emiss[[var_idx]]
     for(idx in seq_along(var)) {
       el <- var[[idx]]
-      expect_length(el, 2)
-      expect_named(el, c("mean", "SE"))
+      expect_length(el, 3)
+      expect_named(el, c("mean", "median", "SE"))
       expect_length(el$mean, 3)
+      expect_length(el$median, 3)
       expect_length(el$SE, 3)
     }
   }
