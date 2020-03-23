@@ -41,7 +41,7 @@ generate_scenarios <- function(seed= 3547912) {
   # Number of subjects
   n <- c(10, 20, 40, 80)
   # Number of timesteps for each subject
-  n_t <- c(400, 800, 1600, 3200)
+  n_t <- c(400, 800, 1600)
   # Variance of the between-subject component distributions
   zeta <- c(0.5, 1, 2)
   # Variance of the between-subject transition probabilities
@@ -69,14 +69,15 @@ generate_scenarios <- function(seed= 3547912) {
   })
   # Bind
   scenarios <- do.call(rbind.data.frame, scenarios)
+  nscen <- nrow(scenarios)
   # Make seeds for (1) data simulations and (2) model execution
   seeds <- sample.int(10000000, nrow(scenarios) * 2, replace=FALSE)
-  scenarios$dsim_seed <- seeds[1:36000]
-  scenarios$model_seed <- seeds[36001:72000]
+  scenarios$dsim_seed <- seeds[1:nscen]
+  scenarios$model_seed <- seeds[(nscen + 1):(2 * nscen)]
   # Start values for each dataset
   # Gamma
   ## TPM gamma
-  diag_value <- runif(36000, 0.5, 0.8)
+  diag_value <- runif(nscen, 0.5, 0.8)
   assertthat::are_equal(length(unique(diag_value)), nrow(scenarios))
   start_gamma <- lapply(diag_value, function(x) {
     gam <- diag(x, 3)
@@ -90,20 +91,20 @@ generate_scenarios <- function(seed= 3547912) {
   })
   ## Emission distributions
   # For the 3 continuous emission distributions
-  start_emiss <- lapply(1:36000, function(x) {
+  start_emiss <- lapply(1:nscen, function(x) {
     jsonlite::toJSON(list(
       #EEG_Fpz_Cz_max_gamma
-      EEG_Fpz_Cz_mean_beta = c( -.5 + runif(1, -.2, .2), 0.2 + runif(1, -.1,.1),
-                                0 + runif(1, -.2, .2), 0.2 + runif(1, -.1,.1),
-                                1.13 + runif(1, -.2, .2), 0.2 + runif(1, -.1,.1)),
+      EEG_Fpz_Cz_mean_beta = c( -0.1 + runif(1, -.2, .2), 0.2 + runif(1, -.1,.1),
+                                -0.6 + runif(1, -.2, .2), 0.2 + runif(1, -.1,.1),
+                                 0.8 + runif(1, -.2, .2), 0.2 + runif(1, -.1,.1)),
       # EOG_median_theta
-      EOG_median_theta = c( .65 + runif(1, -.2, .2), 0.2 + runif(1, -.1,.1),
-                            -.6 + runif(1, -.2, .2), 0.2 + runif(1, -.1,.1),
-                            .15 + runif(1, -.2, .2), 0.2 + runif(1, -.1,.1)),
+      EOG_median_theta = c( 0.8 + runif(1, -.2, .2), 0.2 + runif(1, -.1,.1),
+                           -1 + runif(1, -.2, .2), 0.2 + runif(1, -.1,.1),
+                            0 + runif(1, -.2, .2), 0.2 + runif(1, -.1,.1)),
       # EOG_min_beta
-      EOG_min_beta = c( 1 + runif(1, -.2, .2), 0.2 + runif(1, -.1,.1),
-                        -.9 + runif(1, -.2, .2), 0.2 + runif(1, -.1,.1),
-                        -.1 + runif(1, -.2, .2), 0.2 + runif(1, -.1,.1))
+      EOG_min_beta = c(  0.9 + runif(1, -.2, .2), 0.2 + runif(1, -.1,.1),
+                          -1 + runif(1, -.2, .2), 0.2 + runif(1, -.1,.1),
+                        0 + runif(1, -.2, .2), 0.2 + runif(1, -.1,.1))
     ), pretty = TRUE, flatten = TRUE)
   })
   # Add to data
