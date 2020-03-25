@@ -12,7 +12,7 @@ run_mHMM(
   mcmc_iterations = 2000,
   mcmc_burn_in = 1000,
   show_progress = TRUE,
-  order_data = TRUE
+  order_data = FALSE
 )
 }
 \arguments{
