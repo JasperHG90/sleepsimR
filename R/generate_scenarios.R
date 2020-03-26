@@ -43,7 +43,7 @@ generate_scenarios <- function(seed= 3547912) {
   # Number of timesteps for each subject
   n_t <- c(400, 800, 1600)
   # Variance of the between-subject component distributions
-  zeta <- c(0.25, 0.5, 1) # 2
+  zeta <- c(0.25, 0.5, 1, 2)
   # Variance of the between-subject transition probabilities
   Q <- c(0.1, 0.2, 0.4)
   # Create data
