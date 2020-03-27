@@ -279,10 +279,16 @@ trace_plot.mHMM_cont <- function(x, param = c("emiss_mu_bar",
 #' Compute upper and lower values of the 95\% credible interval
 #'
 #' @param x posterior values for a parameter
+#' @param type either one of '0.95' for 95\% CI or '0.99' for 99\% CI
 #'
 #' @return numeric vector. Element 1 is the lower 95\% CI, element 2 is the upper 95\% CI.
 #'
 #' @export
-credible_interval <- function(x) {
-  unname(apply(x, 2, function(y) quantile(y, c(0.025, 0.975))))
+credible_interval <- function(x, type=c("0.95", "0.99")) {
+  type <- match.arg(type)
+  if(type == "0.95") {
+    return(unname(apply(x, 2, function(y) quantile(y, c(0.025, 0.975)))))
+  } else {
+    return(unname(apply(x, 2, function(y) quantile(y, c(0.005, 0.995)))))
+  }
 }
