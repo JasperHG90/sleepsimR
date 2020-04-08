@@ -45,9 +45,9 @@ test_that("Can simulate a dataset and run the mHMM", {
            ncol=2, byrow=TRUE)
   )
   # Run model
-  mod <- sleepsimR::run_mHMM(tdf, start_values = start_values, hyperprior_means = hyp_priors,
-                             model_seed = scen$model_seed,mcmc_iterations=10, mcmc_burn_in = 1,
-                             show_progress = FALSE)
+  mod <- sleepsimR::run_mHMM(tdf, start_values = start_values, mprop=list("m"=3, "n_dep"=3),
+                             hyperprior_means = hyp_priors, model_seed = scen$model_seed,mcmc_iterations=10,
+                             mcmc_burn_in = 1, show_progress = FALSE)
   # Expect objects
   expect_equal(names(mod), c('input','PD_subj','gamma_int_subj','gamma_int_bar','gamma_cov_bar',
                              'emiss_cov_bar','gamma_prob_bar','emiss_mu_bar','gamma_naccept',
