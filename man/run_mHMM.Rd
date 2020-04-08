@@ -7,6 +7,7 @@
 run_mHMM(
   data,
   start_values,
+  mprop,
   hyperprior_means,
   model_seed,
   mcmc_iterations = 2000,
@@ -19,6 +20,8 @@ run_mHMM(
 \item{data}{Matrix. data set used to run the mHMM. See s_data parameter in \link[mHMMbayes]{mHMM_cont}.}
 
 \item{start_values}{List (must be unnamed). start values for relevant parameters. See start_val parameter in \link[mHMMbayes]{mHMM_cont}.}
+
+\item{mprop}{List containing two elements (numeric scalars), (1) 'm' or the number of hypothesized latent states and (2) 'n_dep' or the number of dependent (emission) variables.}
 
 \item{hyperprior_means}{Numeric vector. Contains the hyperprior value for the between-subject distribution means. See \link[mHMMbayes]{mHMM_cont}.}
 

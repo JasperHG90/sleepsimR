@@ -1,7 +1,7 @@
 Package: sleepsimR
 Type: Package
 Title: Simulate and analyze sleep state data
-Version: 0.3
+Version: 0.5
 Author: Jasper Ginn
 Maintainer: Jasper Ginn <jasperginn@gmail.com>
 Description: I used this package in my thesis to simulate

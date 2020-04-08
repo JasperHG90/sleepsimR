@@ -35,7 +35,7 @@ burn <- function(x, ...) {
   UseMethod("burn", x)
 }
 #' @export
-burn.mHMM_cont <- function(x) {
+burn.mHMM_cont <-  function(x) {
   # Number of burn_in samples
   burn_in <- x$input$burn_in
   J <- x$input$J
@@ -53,15 +53,14 @@ burn.mHMM_cont <- function(x) {
       next
     } else if(names(x)[idx] == "state_orders") {
       next
+    } else if(names(x)[idx] == "gamma_naccept") {
+      next
     } else if (mode(x[[idx]]) == "list") {
       for(subj_idx in seq_along(x[[idx]])) {
         x[[idx]][[subj_idx]] <- x[[idx]][[subj_idx]][(burn_in+1):J,]
       }
-    } else {
-      if (nrow(x[[idx]] < J)) {
-        next
-      }
-      x[[idx]] <- x[[idx]][(burn_in+1:J),]
+    } else if (mode(x[[idx]]) == "numeric") {
+      x[[idx]] <- x[[idx]][(burn_in+1):J,]
     }
   }
   # Create new object and return

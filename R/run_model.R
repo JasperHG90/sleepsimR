@@ -4,6 +4,7 @@
 #'
 #' @param data Matrix. data set used to run the mHMM. See s_data parameter in \link[mHMMbayes]{mHMM_cont}.
 #' @param start_values List (must be unnamed). start values for relevant parameters. See start_val parameter in \link[mHMMbayes]{mHMM_cont}.
+#' @param mprop List containing two elements (numeric scalars), (1) 'm' or the number of hypothesized latent states and (2) 'n_dep' or the number of dependent (emission) variables.
 #' @param hyperprior_means Numeric vector. Contains the hyperprior value for the between-subject distribution means. See \link[mHMMbayes]{mHMM_cont}.
 #' @param model_seed Int. Random seed that is set before running the model.
 #' @param mcmc_iterations Int. number of iterations for the MCMC algorithm. Defaults to 1000. See mcmc parameter in \link[mHMMbayes]{mHMM_cont}.
@@ -16,13 +17,8 @@
 #' @importFrom mHMMbayes mHMM_cont
 #'
 #' @export
-run_mHMM <- function(data, start_values, hyperprior_means, model_seed, mcmc_iterations = 2000, mcmc_burn_in = 1000, show_progress = TRUE,
+run_mHMM <- function(data, start_values, mprop, hyperprior_means, model_seed, mcmc_iterations = 2000, mcmc_burn_in = 1000, show_progress = TRUE,
                      order_data = FALSE) {
-  # Model properties
-  mprop = list(
-    "m" = nrow(getOption("sleepsimR_simulate")[["gamma_bar"]]),
-    "n_dep" = 3
-  )
   # Mcmc options
   mcmcOpts <- list(
     "J"=mcmc_iterations,
