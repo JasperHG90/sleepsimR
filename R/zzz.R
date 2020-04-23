@@ -29,7 +29,7 @@
         nrow = 3, ncol = 3, byrow = TRUE
       ),
       # emission distributions
-      "emission_bar" = list(
+      "emission_bar_original_failed" = list(
         # EEG_Fpz_Cz_mean_beta
         matrix(c(
           -0.36, 0.1, # 1
@@ -49,6 +49,30 @@
           0.75, 0.1,  # 1
           -1.31, 0.1, # 2
           0.005, 0.1  # 3
+        ), nrow=3, ncol=2,
+        byrow=TRUE)
+      ),
+      # emission distributions
+      "emission_bar_original_failed" = list(
+        # EEG_Fpz_Cz_mean_beta
+        matrix(c(
+          -0.5, 0.5, # 1
+          -5.7, 0.5, # 2
+          6, 0.5   # 3
+        ), nrow=3, ncol=2,
+        byrow = TRUE),
+        # EOG_median_theta
+        matrix(c(
+          5, 0.5, # 1
+          -5, 0.5, # 2
+          0.1, 0.5  # 3
+        ), nrow=3, ncol=2,
+        byrow=TRUE),
+        # EOG_min_theta
+        matrix(c(
+          5, 0.5,  # 1
+          -0.3, 0.5, # 2
+          -5, 0.5  # 3
         ), nrow=3, ncol=2,
         byrow=TRUE)
       )
