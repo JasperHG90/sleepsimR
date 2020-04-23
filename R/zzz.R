@@ -53,7 +53,7 @@
         byrow=TRUE)
       ),
       # emission distributions
-      "emission_bar_original_failed" = list(
+      "emission_bar" = list(
         # EEG_Fpz_Cz_mean_beta
         matrix(c(
           -0.5, 0.5, # 1
