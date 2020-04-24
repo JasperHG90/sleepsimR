@@ -58,21 +58,21 @@
         matrix(c(
           -0.5, 0.5, # 1
           -5.7, 0.5, # 2
-          6, 0.5   # 3
+          5.2, 0.5   # 3
         ), nrow=3, ncol=2,
         byrow = TRUE),
         # EOG_median_theta
         matrix(c(
           5, 0.5, # 1
-          -5, 0.5, # 2
-          0.1, 0.5  # 3
+          0.1, 0.5, # 2
+          -5, 0.5  # 3
         ), nrow=3, ncol=2,
         byrow=TRUE),
         # EOG_min_theta
         matrix(c(
-          5, 0.5,  # 1
-          -0.3, 0.5, # 2
-          -5, 0.5  # 3
+          -5, 0.5,  # 1
+          5, 0.5, # 2
+          -0.1, 0.5  # 3
         ), nrow=3, ncol=2,
         byrow=TRUE)
       )
